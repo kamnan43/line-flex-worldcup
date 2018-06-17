@@ -266,6 +266,11 @@ function getMatchContentBubble(title, match) {
             flex: 1
           },
           {
+            type: 'icon',
+            url: `${config.BASE_URL}/static/football.png`,
+            size: 'sm',
+          },
+          {
             type: 'text',
             text: `${scorer.home_scorer + scorer.away_scorer}`,
             wrap: true,

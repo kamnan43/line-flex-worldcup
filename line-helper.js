@@ -102,10 +102,10 @@ function createImageCarouselColumns(actionText, imageUrl, extra) {
   };
 }
 
-function createFlexMessage(containers) {
+function createFlexMessage(title, containers) {
   return {
     "type": "flex",
-    "altText": "Flex Message",
+    "altText": title,
     "contents": containers 
   };
 }

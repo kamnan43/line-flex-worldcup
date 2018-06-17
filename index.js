@@ -57,7 +57,7 @@ function handleEvent(event) {
       return worldcup.sendGreetingMessage(userId, replyToken);
 
     case 'unfollow':
-      // return worldcup.disableMember(userId);
+    // return worldcup.disableMember(userId);
 
     case 'postback':
       let postbackData = event.postback.data.split("_", 2);

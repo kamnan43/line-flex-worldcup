@@ -1,0 +1,366 @@
+[
+  {
+    "match_id": "293760",
+    "country_id": "340",
+    "country_name": "World Cup 2018",
+    "league_id": "1736",
+    "league_name": " Group A",
+    "match_date": "2018-06-14",
+    "match_status": "FT",
+    "match_time": "17:00",
+    "match_hometeam_name": "Russia",
+    "match_hometeam_score": "5",
+    "match_awayteam_name": "Saudi Arabia",
+    "match_awayteam_score": "0",
+    "match_hometeam_halftime_score": "half",
+    "match_awayteam_halftime_score": "time",
+    "match_hometeam_extra_score": "",
+    "match_awayteam_extra_score": "",
+    "match_hometeam_penalty_score": "",
+    "match_awayteam_penalty_score": "",
+    "match_hometeam_system": "4-2-3-1",
+    "match_awayteam_system": "4-1-4-1",
+    "match_live": "0",
+    "goalscorer": [],
+    "cards": [],
+    "lineup": {
+      "home": {
+        "starting_lineups": [],
+        "substitutes": [],
+        "coach": [],
+        "substitutions": []
+      },
+      "away": {
+        "starting_lineups": [],
+        "substitutes": [],
+        "coach": [],
+        "substitutions": []
+      }
+    },
+    "statistics": [
+      {
+        "type": "shots on target",
+        "home": "7",
+        "away": "0"
+      },
+      {
+        "type": "shots off target",
+        "home": "5",
+        "away": "4"
+      },
+      {
+        "type": "possession (%)",
+        "home": "41",
+        "away": "59"
+      },
+      {
+        "type": "corners",
+        "home": "6",
+        "away": "2"
+      },
+      {
+        "type": "offsides",
+        "home": "3",
+        "away": "1"
+      },
+      {
+        "type": "fouls",
+        "home": "22",
+        "away": "10"
+      },
+      {
+        "type": "yellow cards",
+        "home": "1",
+        "away": "1"
+      },
+      {
+        "type": "goal kicks",
+        "home": "4",
+        "away": "6"
+      },
+      {
+        "type": "treatments",
+        "home": "2",
+        "away": "3"
+      }
+    ]
+  },
+  {
+    "match_id": "293761",
+    "country_id": "340",
+    "country_name": "World Cup 2018",
+    "league_id": "1736",
+    "league_name": " Group A",
+    "match_date": "2018-06-15",
+    "match_status": "FT",
+    "match_time": "14:00",
+    "match_hometeam_name": "Egypt",
+    "match_hometeam_score": "0",
+    "match_awayteam_name": "Uruguay",
+    "match_awayteam_score": "1",
+    "match_hometeam_halftime_score": "0",
+    "match_awayteam_halftime_score": "0",
+    "match_hometeam_extra_score": "",
+    "match_awayteam_extra_score": "",
+    "match_hometeam_penalty_score": "",
+    "match_awayteam_penalty_score": "",
+    "match_hometeam_system": "4-2-3-1",
+    "match_awayteam_system": "4-4-2",
+    "match_live": "0",
+    "goalscorer": [
+      {
+        "time": "89'",
+        "home_scorer": "",
+        "score": "0 - 1",
+        "away_scorer": "J.  Jose Gimenez"
+      }
+    ],
+    "cards": [
+      {
+        "time": "90'",
+        "home_fault": "S.  Sam Morsy",
+        "card": "yellowcard",
+        "away_fault": ""
+      },
+      {
+        "time": "90'",
+        "home_fault": "A.  Ahmed Hegazy",
+        "card": "yellowcard",
+        "away_fault": ""
+      },
+      {
+        "time": "",
+        "home_fault": "",
+        "card": "yellowcard",
+        "away_fault": ""
+      },
+      {
+        "time": "",
+        "home_fault": "",
+        "card": "yellowcard",
+        "away_fault": ""
+      }
+    ],
+    "lineup": {
+      "home": {
+        "starting_lineups": [],
+        "substitutes": [],
+        "coach": [],
+        "substitutions": []
+      },
+      "away": {
+        "starting_lineups": [],
+        "substitutes": [],
+        "coach": [],
+        "substitutions": []
+      }
+    },
+    "statistics": [
+      {
+        "type": "shots on target",
+        "home": "3",
+        "away": "4"
+      },
+      {
+        "type": "shots off target",
+        "home": "2",
+        "away": "6"
+      },
+      {
+        "type": "possession (%)",
+        "home": "44",
+        "away": "56"
+      },
+      {
+        "type": "corners",
+        "home": "0",
+        "away": "5"
+      },
+      {
+        "type": "offsides",
+        "home": "1",
+        "away": "1"
+      },
+      {
+        "type": "fouls",
+        "home": "12",
+        "away": "6"
+      },
+      {
+        "type": "yellow cards",
+        "home": "2",
+        "away": "0"
+      },
+      {
+        "type": "goal kicks",
+        "home": "10",
+        "away": "6"
+      },
+      {
+        "type": "treatments",
+        "home": "6",
+        "away": "0"
+      }
+    ]
+  },
+  {
+    "match_id": "293762",
+    "country_id": "340",
+    "country_name": "World Cup 2018",
+    "league_id": "1736",
+    "league_name": " Group A",
+    "match_date": "2018-06-19",
+    "match_status": "",
+    "match_time": "20:00",
+    "match_hometeam_name": "Russia",
+    "match_hometeam_score": "",
+    "match_awayteam_name": "Egypt",
+    "match_awayteam_score": "",
+    "match_hometeam_halftime_score": "half",
+    "match_awayteam_halftime_score": "time",
+    "match_hometeam_extra_score": "",
+    "match_awayteam_extra_score": "",
+    "match_hometeam_penalty_score": "",
+    "match_awayteam_penalty_score": "",
+    "match_hometeam_system": "",
+    "match_awayteam_system": "",
+    "match_live": "0",
+    "goalscorer": [],
+    "cards": [],
+    "lineup": {
+      "home": {
+        "starting_lineups": [],
+        "substitutes": [],
+        "coach": [],
+        "substitutions": []
+      },
+      "away": {
+        "starting_lineups": [],
+        "substitutes": [],
+        "coach": [],
+        "substitutions": []
+      }
+    },
+    "statistics": []
+  },
+  {
+    "match_id": "293763",
+    "country_id": "340",
+    "country_name": "World Cup 2018",
+    "league_id": "1736",
+    "league_name": " Group A",
+    "match_date": "2018-06-20",
+    "match_status": "",
+    "match_time": "17:00",
+    "match_hometeam_name": "Uruguay",
+    "match_hometeam_score": "",
+    "match_awayteam_name": "Saudi Arabia",
+    "match_awayteam_score": "",
+    "match_hometeam_halftime_score": "half",
+    "match_awayteam_halftime_score": "time",
+    "match_hometeam_extra_score": "",
+    "match_awayteam_extra_score": "",
+    "match_hometeam_penalty_score": "",
+    "match_awayteam_penalty_score": "",
+    "match_hometeam_system": "",
+    "match_awayteam_system": "",
+    "match_live": "0",
+    "goalscorer": [],
+    "cards": [],
+    "lineup": {
+      "home": {
+        "starting_lineups": [],
+        "substitutes": [],
+        "coach": [],
+        "substitutions": []
+      },
+      "away": {
+        "starting_lineups": [],
+        "substitutes": [],
+        "coach": [],
+        "substitutions": []
+      }
+    },
+    "statistics": []
+  },
+  {
+    "match_id": "293764",
+    "country_id": "340",
+    "country_name": "World Cup 2018",
+    "league_id": "1736",
+    "league_name": " Group A",
+    "match_date": "2018-06-25",
+    "match_status": "",
+    "match_time": "16:00",
+    "match_hometeam_name": "Saudi Arabia",
+    "match_hometeam_score": "",
+    "match_awayteam_name": "Egypt",
+    "match_awayteam_score": "",
+    "match_hometeam_halftime_score": "half",
+    "match_awayteam_halftime_score": "time",
+    "match_hometeam_extra_score": "",
+    "match_awayteam_extra_score": "",
+    "match_hometeam_penalty_score": "",
+    "match_awayteam_penalty_score": "",
+    "match_hometeam_system": "",
+    "match_awayteam_system": "",
+    "match_live": "0",
+    "goalscorer": [],
+    "cards": [],
+    "lineup": {
+      "home": {
+        "starting_lineups": [],
+        "substitutes": [],
+        "coach": [],
+        "substitutions": []
+      },
+      "away": {
+        "starting_lineups": [],
+        "substitutes": [],
+        "coach": [],
+        "substitutions": []
+      }
+    },
+    "statistics": []
+  },
+  {
+    "match_id": "293765",
+    "country_id": "340",
+    "country_name": "World Cup 2018",
+    "league_id": "1736",
+    "league_name": " Group A",
+    "match_date": "2018-06-25",
+    "match_status": "",
+    "match_time": "16:00",
+    "match_hometeam_name": "Uruguay",
+    "match_hometeam_score": "",
+    "match_awayteam_name": "Russia",
+    "match_awayteam_score": "",
+    "match_hometeam_halftime_score": "half",
+    "match_awayteam_halftime_score": "time",
+    "match_hometeam_extra_score": "",
+    "match_awayteam_extra_score": "",
+    "match_hometeam_penalty_score": "",
+    "match_awayteam_penalty_score": "",
+    "match_hometeam_system": "",
+    "match_awayteam_system": "",
+    "match_live": "0",
+    "goalscorer": [],
+    "cards": [],
+    "lineup": {
+      "home": {
+        "starting_lineups": [],
+        "substitutes": [],
+        "coach": [],
+        "substitutions": []
+      },
+      "away": {
+        "starting_lineups": [],
+        "substitutes": [],
+        "coach": [],
+        "substitutions": []
+      }
+    },
+    "statistics": []
+  }
+]

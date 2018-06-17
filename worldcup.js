@@ -3,6 +3,7 @@ const options = require('./worldcup-options');
 const baseURL = config.BASE_URL;
 const lineSdk = require('@line/bot-sdk');
 const lineHelper = require('./line-helper.js');
+const apifootball = require('./apifootball');
 const line = new lineSdk.Client(config);
 const path = require('path');
 const cp = require('child_process');
@@ -16,8 +17,13 @@ firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
 var membersRef = database.ref("/members");
 var relationsRef = database.ref("/members");
+var fixturesRef = database.ref("/fixtures");
 
 module.exports = {
+  updateFixture: updateFixture,
+  getLastMatch: getLastMatch,
+  getNextMatch: getNextMatch,
+
   sendTextMessage: (userId, replyToken, text) => {
     line.replyMessage(
       replyToken,
@@ -39,14 +45,13 @@ module.exports = {
       });
   },
 
-  sendGreetingMessage: (userId, replyToken) => {
-    let container = options.nextMatch;
-    container.body.contents = getNextMatchContent('Argentina', 'Korea Republic', 'E', 'Today', '7:00PM', 'Samara Arena');
+  sendGreetingMessage: async (userId, replyToken) => {
+    let lastMatchBubble = getMatchContentBubble('Last Match', await getLastMatch());
+    let nextMatchBubble = getMatchContentBubble('Next Match', await getNextMatch());
     let messages = [
-      lineHelper.createFlexMessage(container),
+      lineHelper.createFlexCarouselMessage('Last/Next Match Info', [lastMatchBubble, nextMatchBubble]),
     ];
     line.replyMessage(replyToken, messages);
-    // });
   },
 
   setPersonal: (userId, replyToken, firstTime) => {
@@ -677,11 +682,12 @@ function getImageMessage(message) {
   });
 }
 
-function getNextMatchContent(team1, team2, group, date, time, stadium) {
-  return [
+function getMatchContentBubble(title, match) {
+  let container = options.matchContentBubble;
+  container.body.contents = [
     {
       type: 'text',
-      text: 'Next Match',
+      text: title,
       wrap: true,
       weight: 'bold',
       gravity: 'center',
@@ -689,7 +695,7 @@ function getNextMatchContent(team1, team2, group, date, time, stadium) {
     },
     {
       type: 'text',
-      text: `${team1} vs ${team2}`,
+      text: `${match.match_hometeam_name} vs ${match.match_awayteam_name}`,
       wrap: true,
       weight: 'bold',
       gravity: 'center',
@@ -715,7 +721,7 @@ function getNextMatchContent(team1, team2, group, date, time, stadium) {
             },
             {
               type: 'text',
-              text: `${group}`,
+              text: `${match.league_name.replace(' Group ', '')}`,
               wrap: true,
               color: '#666666',
               size: 'sm',
@@ -737,32 +743,10 @@ function getNextMatchContent(team1, team2, group, date, time, stadium) {
             },
             {
               type: 'text',
-              text: `${date}, ${time}`,
+              text: `${match.match_date}, ${match.match_time}`,
               wrap: true,
               size: 'sm',
               color: '#666666',
-              flex: 4
-            }
-          ]
-        },
-        {
-          type: 'box',
-          layout: 'baseline',
-          spacing: 'sm',
-          contents: [
-            {
-              type: 'text',
-              text: 'Stadium',
-              color: '#aaaaaa',
-              size: 'sm',
-              flex: 2
-            },
-            {
-              type: 'text',
-              text: `${stadium}`,
-              wrap: true,
-              color: '#666666',
-              size: 'sm',
               flex: 4
             }
           ]
@@ -770,43 +754,69 @@ function getNextMatchContent(team1, team2, group, date, time, stadium) {
       ]
     }
   ];
+  return container;
 }
 
-// function pushVideoMessage(userId, message) {
-//   const downloadPath = path.join(__dirname, 'downloaded', `${message.id}.mp4`);
-//   const previewPath = path.join(__dirname, 'downloaded', `${message.id}-preview.jpg`);
-//   return downloadContent(message.id, downloadPath)
-//     .then((downloadPath) => {
-//       cp.execSync(`convert mp4:${downloadPath}[0] jpeg:${previewPath}`);
-//       return line.pushMessage(
-//         userId,
-//         {
-//           type: 'video',
-//           originalContentUrl: baseURL + '/downloaded/' + path.basename(downloadPath),
-//           previewImageUrl: baseURL + '/downloaded/' + path.basename(previewPath),
-//         }
-//       );
-//     });
-// }
+function updateFixture() {
+  Promise.all(config.apiFootball.leagues.map(leagueId => {
+    return apifootball.getLeageData(leagueId);
+  })).then((result) => {
+    var fixtures = [].concat.apply([], result);
+    fs.writeFile(`fixtures.json`, JSON.stringify(fixtures, null, 2), function (err) {
+      if (err) { return console.log(err); }
+      console.log("The file was saved!");
+    });
+    fixtures.forEach(fixture => {
+      var fixturesRef = database.ref("/fixtures/" + fixture.match_id);
+      fixturesRef.set(fixture);
+    });
+  });
+}
 
-// function pushAudioMessage(userId, message) {
-//   const downloadPath = path.join(__dirname, 'downloaded', `${message.id}.m4a`);
-//   return downloadContent(message.id, downloadPath)
-//     .then((downloadPath) => {
-//       var getDuration = require('get-audio-duration');
-//       var audioDuration;
-//       getDuration(downloadPath)
-//         .then((duration) => { audioDuration = duration; })
-//         .catch((error) => { audioDuration = 1; })
-//         .finally(() => {
-//           return line.pushMessage(
-//             userId,
-//             {
-//               type: 'audio',
-//               originalContentUrl: baseURL + '/downloaded/' + path.basename(downloadPath),
-//               duration: audioDuration * 1000,
-//             }
-//           );
-//         });
-//     });
-// }
+function getLastMatch() {
+  return new Promise((resolve, reject) => {
+    let list = [];
+    fixturesRef
+      .orderByChild('match_status')
+      .equalTo('FT')
+      .once("value", function (snapshot) {
+        snapshot.forEach(function (snap) {
+          list.push(snap.val());
+        });
+        list = list.sort(sortByMatchDateTimeDesc);
+        if (list.length > 0) resolve(list[0]);
+        else reject('NO LAST MATCH');
+      });
+  });
+}
+
+function getNextMatch() {
+  return new Promise((resolve, reject) => {
+    let list = [];
+    fixturesRef
+      .orderByChild('match_status')
+      .once("value", function (snapshot) {
+        snapshot.forEach(function (snap) {
+          var doc = snap.val();
+          if (doc.match_status !== 'FT') {
+            list.push(doc);
+          }
+        });
+        list = list.sort(sortByMatchDateTime);
+        if (list.length > 0) resolve(list[0]);
+        else reject('NO MORE MATCH');
+      });
+  });
+}
+
+function sortByMatchDateTime(a, b) {
+  if (a.match_date < b.match_date) return -1;
+  else if (a.match_date > b.match_date) return 1;
+  else return a.match_time < b.match_time ? -1 : 1;
+}
+
+function sortByMatchDateTimeDesc(a, b) {
+  if (a.match_date < b.match_date) return 1;
+  else if (a.match_date > b.match_date) return -1;
+  else return a.match_time < b.match_time ? 1 : -1;
+}

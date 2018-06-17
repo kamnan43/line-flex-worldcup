@@ -92,7 +92,7 @@ module.exports = {
       createPostBackOption('ดูโปรไฟล์', 'ACTION-PROFILE', extra)
     ];
   },
-  nextMatch: {
+  matchContentBubble: {
     type: 'bubble',
     header: {
       type: 'box',

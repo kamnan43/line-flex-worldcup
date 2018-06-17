@@ -45,7 +45,7 @@ module.exports = {
                     type: 'postback',
                     label: 'Last Match',
                     displayText: 'Last Match',
-                    data: 'LAST_MATCH'
+                    data: 'LAST'
                   }
                 },
                 {
@@ -55,7 +55,7 @@ module.exports = {
                     type: 'postback',
                     label: 'Next Match',
                     displayText: 'Next Match',
-                    data: 'NEXT_MATCH'
+                    data: 'NEXT'
                   }
                 }
               ]

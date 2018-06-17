@@ -87,6 +87,21 @@ module.exports = {
       .catch((err) => { console.log('line error:', err) });
   },
 
+  sendLastMessage: async (userId, replyToken) => {
+    let bubble = [];
+    let messages = [];
+    let lastMatch = await getLastMatch();
+    if (lastMatch.length > 0) {
+      bubble.push(getMatchContentBubble('Last Match', match[0]))
+      messages.push(lineHelper.createFlexCarouselMessage('Match Info', bubble));
+    } else {
+      messages.push(lineHelper.createTextMessage('No Last Match'));
+    }
+    line.replyMessage(replyToken, messages)
+      .then((msg) => { console.log('line:', msg) })
+      .catch((err) => { console.log('line error:', err) });
+  },
+
   sendNextMessage: async (userId, replyToken) => {
     let bubble = [];
     let messages = [];
@@ -187,26 +202,18 @@ function getMatchContentBubble(title, match) {
       {
         type: 'text',
         text: match.match_hometeam_name,
-        color: '#aaaaaa',
-        size: 'sm',
         flex: 2,
         align: 'start'
       },
       {
         type: 'text',
         text: `${match.match_hometeam_score} : ${match.match_awayteam_score}`,
-        wrap: false,
-        size: 'sm',
-        color: '#aaaaaa',
         flex: 1,
         align: 'center'
       },
       {
         type: 'text',
         text: match.match_awayteam_name,
-        wrap: true,
-        size: 'sm',
-        color: '#aaaaaa',
         flex: 2,
         align: 'end'
       }
@@ -251,7 +258,15 @@ function getMatchContentBubble(title, match) {
           },
           {
             type: 'text',
-            text: `${scorer.score}   ${scorer.home_scorer + scorer.away_scorer}`,
+            text: `${scorer.score}`,
+            wrap: true,
+            color: '#666666',
+            size: 'sm',
+            flex: 1
+          },
+          {
+            type: 'text',
+            text: `${scorer.home_scorer + scorer.away_scorer}`,
             wrap: true,
             color: '#666666',
             size: 'sm',
@@ -315,7 +330,7 @@ function getMatchContentBubble(title, match) {
   detail.contents.push({
     type: 'box',
     layout: 'baseline',
-    spacing: 'sm',
+    spacing: 'md',
     contents: [
       {
         type: 'text',
@@ -396,7 +411,6 @@ function getMatchContentBubble(title, match) {
   };
   return {
     type: 'bubble',
-    header: header,
     body: body,
     footer: footer
   };

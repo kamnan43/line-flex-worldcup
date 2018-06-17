@@ -127,12 +127,10 @@ function createFlexBubbleMessage(header, hero, body, footer) {
 }
 
 function createFlexCarouselMessage(title, containers) {
-  let a = createFlexMessage(title, {
+  return createFlexMessage(title, {
     "type": "carousel", 
     "contents": containers,
   });
-  console.log(JSON.stringify(a));
-  return a;
 }
 
 module.exports = {

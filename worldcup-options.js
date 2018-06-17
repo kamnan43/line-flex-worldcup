@@ -34,10 +34,6 @@ module.exports = {
           spacing: 'sm',
           contents: [
             {
-              type: 'separator',
-              margin: 'lg'
-            },
-            {
               type: 'box',
               layout: 'horizontal',
               spacing: 'sm',

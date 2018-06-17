@@ -52,6 +52,7 @@ module.exports = {
     let bubble = _.cloneDeep(options.menuBubble);
     let liveMatch = await getLiveMatch();
     if (liveMatch.length > 0) {
+      bubble.contents.body.unshift({ type: 'separator', margin: 'lg' });
       liveMatch.forEach(match => {
         bubble.body.contents.unshift(options.getLiveMatchBox(match))
       });
@@ -67,6 +68,38 @@ module.exports = {
       .catch((err) => {
         console.log('line error:', err)
       });
+  },
+
+  sendLiveMessage: async (userId, replyToken) => {
+    let bubble = [];
+    let messages = [];
+    let liveMatch = await getLiveMatch();
+    if (liveMatch.length > 0) {
+      liveMatch.forEach(match => {
+        bubble.push(getMatchContentBubble('LIVE Match', match))
+      });
+      messages.push(lineHelper.createFlexCarouselMessage('Match Info', bubble));
+    } else {
+      messages.push(lineHelper.createTextMessage('No Live Match Now'));
+    }
+    line.replyMessage(replyToken, messages)
+      .then((msg) => { console.log('line:', msg) })
+      .catch((err) => { console.log('line error:', err) });
+  },
+
+  sendNextMessage: async (userId, replyToken) => {
+    let bubble = [];
+    let messages = [];
+    let nextMatch = await getNextMatch();
+    if (nextMatch.length > 0) {
+      bubble.push(getMatchContentBubble('Next Match', match[0]))
+      messages.push(lineHelper.createFlexCarouselMessage('Match Info', bubble));
+    } else {
+      messages.push(lineHelper.createTextMessage('No More Match'));
+    }
+    line.replyMessage(replyToken, messages)
+      .then((msg) => { console.log('line:', msg) })
+      .catch((err) => { console.log('line error:', err) });
   },
 
   sendGreetingMessage: async (userId, replyToken) => {

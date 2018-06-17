@@ -148,6 +148,20 @@ function getMatchContentBubble(title, match) {
   };
   // scorer
   if (match.goalscorer) {
+    detail.contents.push({
+      type: 'box',
+      layout: 'baseline',
+      spacing: 'sm',
+      contents: [
+        {
+          type: 'text',
+          text: 'Scorer',
+          color: '#aaaaaa',
+          size: 'sm',
+          weight: 'bold',
+        }
+      ]
+    });
     match.goalscorer.filter(s => s.time !== '').forEach(scorer => {
       detail.contents.push({
         type: 'box',
@@ -175,6 +189,20 @@ function getMatchContentBubble(title, match) {
   }
   // card
   if (match.cards) {
+    detail.contents.push({
+      type: 'box',
+      layout: 'baseline',
+      spacing: 'sm',
+      contents: [
+        {
+          type: 'text',
+          text: 'Card',
+          color: '#aaaaaa',
+          size: 'sm',
+          weight: 'bold',
+        }
+      ]
+    });
     match.cards.filter(c => c.time !== '').forEach(card => {
       detail.contents.push({
         type: 'box',
@@ -189,8 +217,16 @@ function getMatchContentBubble(title, match) {
             flex: 1
           },
           {
+            type: 'icon',
+            url: `${config.BASE_URL}/static/${card.card}.png`,
+            wrap: true,
+            color: '#666666',
+            size: 'sm',
+            flex: 1
+          }
+          {
             type: 'text',
-            text: `${card.card}   ${card.home_fault + card.away_fault}`,
+            text: `${card.home_fault + card.away_fault}`,
             wrap: true,
             color: '#666666',
             size: 'sm',
@@ -200,6 +236,10 @@ function getMatchContentBubble(title, match) {
       });
     });
   }
+  detail.contents.push({
+    "type": "separator",
+    "margin": "xl"
+  });
   // group
   detail.contents.push({
     type: 'box',

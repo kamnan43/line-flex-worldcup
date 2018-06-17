@@ -111,7 +111,7 @@ module.exports = {
       }
     ]
   },
-  liveBubble: (match) => {
+  getLiveMatchBox: (match) => {
     let label = `${match.match_hometeam_name}  ${match.match_hometeam_score} : ${match.match_awayteam_score}  ${match.match_awayteam_name}`;
     return {
       type: 'button',

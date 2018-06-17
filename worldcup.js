@@ -58,7 +58,7 @@ module.exports = {
       bubble.body.contents.unshift(options.menuLiveBox);
     }
     let messages = [
-      lineHelper.createFlexCarouselMessage('Menu', bubble),
+      lineHelper.createFlexMessage('Menu', bubble),
     ];
     line.replyMessage(replyToken, messages)
       .then((msg) => {

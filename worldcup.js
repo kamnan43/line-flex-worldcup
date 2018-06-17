@@ -159,7 +159,7 @@ function getMatchContentBubble(title, match) {
             text: scorer.time,
             color: '#aaaaaa',
             size: 'sm',
-            flex: 2
+            flex: 1
           },
           {
             type: 'text',
@@ -186,7 +186,7 @@ function getMatchContentBubble(title, match) {
             text: card.time || '-',
             color: '#aaaaaa',
             size: 'sm',
-            flex: 2
+            flex: 1
           },
           {
             type: 'text',

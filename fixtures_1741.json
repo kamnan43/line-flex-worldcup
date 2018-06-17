@@ -6,23 +6,49 @@
     "league_id": "1741",
     "league_name": " Group F",
     "match_date": "2018-06-17",
-    "match_status": "",
+    "match_status": "HT",
     "match_time": "17:00",
     "match_hometeam_name": "Germany",
-    "match_hometeam_score": "?",
+    "match_hometeam_score": "0",
     "match_awayteam_name": "Mexico",
-    "match_awayteam_score": "?",
-    "match_hometeam_halftime_score": "",
-    "match_awayteam_halftime_score": "",
+    "match_awayteam_score": "1",
+    "match_hometeam_halftime_score": "0",
+    "match_awayteam_halftime_score": "1",
     "match_hometeam_extra_score": "",
     "match_awayteam_extra_score": "",
     "match_hometeam_penalty_score": "",
     "match_awayteam_penalty_score": "",
     "match_hometeam_system": "4-2-3-1",
     "match_awayteam_system": "4-2-1-3",
-    "match_live": "0",
-    "goalscorer": [],
-    "cards": [],
+    "match_live": "1",
+    "goalscorer": [
+      {
+        "time": "35'",
+        "home_scorer": "",
+        "score": "0 - 1",
+        "away_scorer": "H.  Hirving Lozano"
+      }
+    ],
+    "cards": [
+      {
+        "time": "40'",
+        "home_fault": "",
+        "card": "yellowcard",
+        "away_fault": "H.  Hector Moreno"
+      },
+      {
+        "time": "",
+        "home_fault": "",
+        "card": "yellowcard",
+        "away_fault": "H.  Hector Moreno"
+      },
+      {
+        "time": "",
+        "home_fault": "",
+        "card": "yellowcard",
+        "away_fault": "H.  Hector Moreno"
+      }
+    ],
     "lineup": {
       "home": {
         "starting_lineups": [

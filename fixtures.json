@@ -1586,14 +1586,14 @@
     "league_id": "1740",
     "league_name": " Group E",
     "match_date": "2018-06-17",
-    "match_status": "",
+    "match_status": "FT",
     "match_time": "14:00",
     "match_hometeam_name": "Costa Rica",
-    "match_hometeam_score": "?",
+    "match_hometeam_score": "0",
     "match_awayteam_name": "Serbia",
-    "match_awayteam_score": "?",
-    "match_hometeam_halftime_score": "",
-    "match_awayteam_halftime_score": "",
+    "match_awayteam_score": "1",
+    "match_hometeam_halftime_score": "0",
+    "match_awayteam_halftime_score": "0",
     "match_hometeam_extra_score": "",
     "match_awayteam_extra_score": "",
     "match_hometeam_penalty_score": "",
@@ -1601,147 +1601,113 @@
     "match_hometeam_system": "5-4-1",
     "match_awayteam_system": "4-2-3-1",
     "match_live": "0",
-    "goalscorer": [],
-    "cards": [],
+    "goalscorer": [
+      {
+        "time": "56'",
+        "home_scorer": "",
+        "score": "0 - 1",
+        "away_scorer": "A.  Aleksandar Kolarov"
+      }
+    ],
+    "cards": [
+      {
+        "time": "22'",
+        "home_fault": "F.  Francisco Calvo",
+        "card": "yellowcard",
+        "away_fault": ""
+      },
+      {
+        "time": "56'",
+        "home_fault": "D.  David Guzman",
+        "card": "yellowcard",
+        "away_fault": ""
+      },
+      {
+        "time": "59'",
+        "home_fault": "",
+        "card": "yellowcard",
+        "away_fault": "B.  Branislav Ivanovic"
+      },
+      {
+        "time": "90'",
+        "home_fault": "",
+        "card": "yellowcard",
+        "away_fault": "A.  Aleksandar Prijovic"
+      },
+      {
+        "time": "",
+        "home_fault": "",
+        "card": "yellowcard",
+        "away_fault": "A.  Aleksandar Prijovic"
+      },
+      {
+        "time": "",
+        "home_fault": "",
+        "card": "yellowcard",
+        "away_fault": "A.  Aleksandar Prijovic"
+      }
+    ],
     "lineup": {
       "home": {
-        "starting_lineups": [
-          {
-            "lineup_player": "Keylor Navas",
-            "lineup_number": "1",
-            "lineup_position": "1"
-          },
-          {
-            "lineup_player": "Cristian Gamboa",
-            "lineup_number": "16",
-            "lineup_position": "2"
-          },
-          {
-            "lineup_player": "Johnny Acosta",
-            "lineup_number": "2",
-            "lineup_position": "3"
-          },
-          {
-            "lineup_player": "Giancarlo Gonzalez",
-            "lineup_number": "3",
-            "lineup_position": "4"
-          },
-          {
-            "lineup_player": "Oscar Duarte",
-            "lineup_number": "6",
-            "lineup_position": "5"
-          },
-          {
-            "lineup_player": "Bryan Oviedo",
-            "lineup_number": "8",
-            "lineup_position": "6"
-          },
-          {
-            "lineup_player": "Bryan Ruiz",
-            "lineup_number": "10",
-            "lineup_position": "7"
-          },
-          {
-            "lineup_player": "Celso Borges",
-            "lineup_number": "5",
-            "lineup_position": "8"
-          },
-          {
-            "lineup_player": "David Guzman",
-            "lineup_number": "20",
-            "lineup_position": "9"
-          },
-          {
-            "lineup_player": "Christian Bolanos",
-            "lineup_number": "7",
-            "lineup_position": "10"
-          },
-          {
-            "lineup_player": "Marco Urena",
-            "lineup_number": "21",
-            "lineup_position": "11"
-          }
-        ],
+        "starting_lineups": [],
         "substitutes": [],
-        "coach": [
-          {
-            "lineup_player": "Oscar Ramirez",
-            "lineup_number": "",
-            "lineup_position": ""
-          }
-        ],
+        "coach": [],
         "substitutions": []
       },
       "away": {
-        "starting_lineups": [
-          {
-            "lineup_player": "Aleksandar Mitrovic",
-            "lineup_number": "9",
-            "lineup_position": "11"
-          },
-          {
-            "lineup_player": "Filip Kostic",
-            "lineup_number": "17",
-            "lineup_position": "10"
-          },
-          {
-            "lineup_player": "Adem Ljajic",
-            "lineup_number": "22",
-            "lineup_position": "9"
-          },
-          {
-            "lineup_player": "Dusan Tadic",
-            "lineup_number": "10",
-            "lineup_position": "8"
-          },
-          {
-            "lineup_player": "Sergej Milinkovic-Savic",
-            "lineup_number": "20",
-            "lineup_position": "7"
-          },
-          {
-            "lineup_player": "Nemanja Matic",
-            "lineup_number": "21",
-            "lineup_position": "6"
-          },
-          {
-            "lineup_player": "Aleksandar Kolarov",
-            "lineup_number": "11",
-            "lineup_position": "5"
-          },
-          {
-            "lineup_player": "Dusko Tosic",
-            "lineup_number": "3",
-            "lineup_position": "4"
-          },
-          {
-            "lineup_player": "Nikola Milenkovic",
-            "lineup_number": "15",
-            "lineup_position": "3"
-          },
-          {
-            "lineup_player": "Branislav Ivanovic",
-            "lineup_number": "6",
-            "lineup_position": "2"
-          },
-          {
-            "lineup_player": "Vladimir Stojkovic",
-            "lineup_number": "1",
-            "lineup_position": "1"
-          }
-        ],
+        "starting_lineups": [],
         "substitutes": [],
-        "coach": [
-          {
-            "lineup_player": "Mladen Krstajic",
-            "lineup_number": "",
-            "lineup_position": ""
-          }
-        ],
+        "coach": [],
         "substitutions": []
       }
     },
-    "statistics": []
+    "statistics": [
+      {
+        "type": "shots on target",
+        "home": "3",
+        "away": "4"
+      },
+      {
+        "type": "shots off target",
+        "home": "3",
+        "away": "5"
+      },
+      {
+        "type": "possession (%)",
+        "home": "53",
+        "away": "47"
+      },
+      {
+        "type": "corners",
+        "home": "5",
+        "away": "4"
+      },
+      {
+        "type": "offsides",
+        "home": "1",
+        "away": "3"
+      },
+      {
+        "type": "fouls",
+        "home": "18",
+        "away": "15"
+      },
+      {
+        "type": "yellow cards",
+        "home": "2",
+        "away": "2"
+      },
+      {
+        "type": "goal kicks",
+        "home": "6",
+        "away": "6"
+      },
+      {
+        "type": "treatments",
+        "home": "3",
+        "away": "6"
+      }
+    ]
   },
   {
     "match_id": "293785",
@@ -2074,23 +2040,49 @@
     "league_id": "1741",
     "league_name": " Group F",
     "match_date": "2018-06-17",
-    "match_status": "",
+    "match_status": "HT",
     "match_time": "17:00",
     "match_hometeam_name": "Germany",
-    "match_hometeam_score": "?",
+    "match_hometeam_score": "0",
     "match_awayteam_name": "Mexico",
-    "match_awayteam_score": "?",
-    "match_hometeam_halftime_score": "",
-    "match_awayteam_halftime_score": "",
+    "match_awayteam_score": "1",
+    "match_hometeam_halftime_score": "0",
+    "match_awayteam_halftime_score": "1",
     "match_hometeam_extra_score": "",
     "match_awayteam_extra_score": "",
     "match_hometeam_penalty_score": "",
     "match_awayteam_penalty_score": "",
     "match_hometeam_system": "4-2-3-1",
     "match_awayteam_system": "4-2-1-3",
-    "match_live": "0",
-    "goalscorer": [],
-    "cards": [],
+    "match_live": "1",
+    "goalscorer": [
+      {
+        "time": "35'",
+        "home_scorer": "",
+        "score": "0 - 1",
+        "away_scorer": "H.  Hirving Lozano"
+      }
+    ],
+    "cards": [
+      {
+        "time": "40'",
+        "home_fault": "",
+        "card": "yellowcard",
+        "away_fault": "H.  Hector Moreno"
+      },
+      {
+        "time": "",
+        "home_fault": "",
+        "card": "yellowcard",
+        "away_fault": "H.  Hector Moreno"
+      },
+      {
+        "time": "",
+        "home_fault": "",
+        "card": "yellowcard",
+        "away_fault": "H.  Hector Moreno"
+      }
+    ],
     "lineup": {
       "home": {
         "starting_lineups": [

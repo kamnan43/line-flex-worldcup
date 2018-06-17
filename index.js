@@ -95,5 +95,8 @@ app.listen(port, () => {
   console.log(`listening on ${port}`);
 });
 https.createServer(certOptions, app).listen(port + 800);
+worldcup.updateFixture();
+worldcup.updateStanding();
 
-// worldcup.sendGreetingMessage('', '');
+// worldcup.sendGreetingMessage('','');
+// worldcup.sendStandingMessage();

@@ -4,10 +4,11 @@ const querystring = require('querystring');
 const fs = require('fs');
 
 module.exports = {
- getLeageData: getLeageData,
+  getEvents: getEvents,
+  getStanding: getStanding
 }
 
-function getLeageData(leagueId) {
+function getEvents(leagueId) {
   return new Promise((resolve, reject) => {
     var data = querystring.stringify({
       APIkey: config.apiFootball.apiKey,
@@ -23,12 +24,37 @@ function getLeageData(leagueId) {
       .then(function (body) {
         let data = JSON.parse(body);
         fs.writeFile(`fixtures_${leagueId}.json`, JSON.stringify(data, null, 2), function (err) {
-          if (err) { return console.log(`Error write file league : ${leagueId}`, err); }
+          if (err) { return console.log(`getEvents Error write file league : ${leagueId}`, err); }
         });
         resolve(data);
       })
       .catch(function (err) {
-        console.log(`Error get data league : ${leagueId}`, err);
+        console.log(`getEvents Error get data league : ${leagueId}`, err);
+        reject(err);
+      });
+  });
+}
+
+function getStanding(leagueId) {
+  return new Promise((resolve, reject) => {
+    var data = querystring.stringify({
+      APIkey: config.apiFootball.apiKey,
+      action: 'get_standings',
+      league_id: leagueId,
+    });
+    rp({
+      method: 'GET',
+      uri: `${config.apiFootball.url}?${data}`,
+    })
+      .then(function (body) {
+        let data = JSON.parse(body);
+        fs.writeFile(`standing_${leagueId}.json`, JSON.stringify(data, null, 2), function (err) {
+          if (err) { return console.log(`getStanding Error write file league : ${leagueId}`, err); }
+        });
+        resolve(data);
+      })
+      .catch(function (err) {
+        console.log(`getStanding Error get data league : ${leagueId}`, err);
         reject(err);
       });
   });

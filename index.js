@@ -75,6 +75,7 @@ function handleEvent(event) {
         case 'LIVE' : return worldcup.sendLiveMessage(userId, replyToken);
         case 'LAST' : return worldcup.sendLastMessage(userId, replyToken);
         case 'NEXT' : return worldcup.sendNextMessage(userId, replyToken);
+        case 'SUBSCRIBE' : return worldcup.getLiveReport();
         case 'SCHEDULE' : return worldcup.sendMenuMessage(userId, replyToken);
         case 'GROUP' : return worldcup.sendMenuMessage(userId, replyToken);
       }

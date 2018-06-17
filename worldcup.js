@@ -26,6 +26,7 @@ module.exports = {
   updateStanding: updateStanding,
   getLastMatch: getLastMatch,
   getNextMatch: getNextMatch,
+  getLiveReport: getLiveReport,
 
   sendTextMessage: (userId, replyToken, text) => {
     line.replyMessage(
@@ -402,7 +403,7 @@ function getMatchContentBubble(title, match) {
         action: {
           type: 'postback',
           label: 'Subscribe Live Result',
-          data: 'subscribe',
+          data: 'SUBSCRIBE',
           displayText: 'subscribe'
         },
         style: 'primary'
@@ -475,6 +476,23 @@ function getLiveMatch() {
           if (doc.match_live === '1') {
             list.push(doc);
           }
+        });
+        list = list.sort(sortByMatchDateTime);
+        resolve(list);
+      });
+  });
+}
+
+function getLiveReport() {
+  return new Promise((resolve, reject) => {
+    let list = [];
+    fixturesRef
+      .orderByChild('match_live')
+      .equalTo('1')
+      .on("value", function (snapshot) {
+        snapshot.forEach(function (snap) {
+          var doc = snap.val();
+          console.log('live=====>', doc);
         });
         list = list.sort(sortByMatchDateTime);
         resolve(list);

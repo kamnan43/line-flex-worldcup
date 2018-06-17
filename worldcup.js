@@ -52,7 +52,7 @@ module.exports = {
     let bubble = _.cloneDeep(options.menuBubble);
     let liveMatch = await getLiveMatch();
     if (liveMatch.length > 0) {
-      bubble.contents.body.unshift({ type: 'separator', margin: 'lg' });
+      bubble.body.contents.unshift({ type: 'separator', margin: 'lg' });
       liveMatch.forEach(match => {
         bubble.body.contents.unshift(options.getLiveMatchBox(match))
       });

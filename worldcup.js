@@ -188,7 +188,7 @@ function getMatchContentBubble(title, match) {
   // title
   contents.push({
     type: 'text',
-    text: match.match_status,
+    text: match.match_status || 'Next Match',
     wrap: true,
     weight: 'bold',
     gravity: 'center',
@@ -351,6 +351,8 @@ function getMatchContentBubble(title, match) {
     ]
   });
   // datetime
+  let datetime = moment(`${match.match_date} ${match.match_time}`);
+  console.log(datetime);
   detail.contents.push({
     type: 'box',
     layout: 'baseline',

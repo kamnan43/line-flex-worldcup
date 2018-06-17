@@ -6,6 +6,7 @@ const lineHelper = require('./line-helper.js');
 const apifootball = require('./apifootball');
 const line = new lineSdk.Client(config);
 const path = require('path');
+const _ = require('lodash');
 const cp = require('child_process');
 const http = require('http');
 const fs = require('fs');
@@ -46,12 +47,22 @@ module.exports = {
   },
 
   sendGreetingMessage: async (userId, replyToken) => {
-    let lastMatchBubble = getMatchContentBubble('Last Match', await getLastMatch());
-    let nextMatchBubble = getMatchContentBubble('Next Match', await getNextMatch());
+    let lastMatch = await getLastMatch();
+    let nextMatch = await getNextMatch();
+    let lastMatchBubble = getMatchContentBubble('Last Match', lastMatch);
+    // console.log('lastMatchBubble', JSON.stringify(lastMatchBubble));
+    let nextMatchBubble = getMatchContentBubble('Next Match', nextMatch);
+    // console.log('nextMatchBubble', JSON.stringify(nextMatchBubble));
     let messages = [
       lineHelper.createFlexCarouselMessage('Last/Next Match Info', [lastMatchBubble, nextMatchBubble]),
     ];
-    line.replyMessage(replyToken, messages);
+    line.replyMessage(replyToken, messages)
+    .then((msg)=>{
+      console.log('line:', msg)
+    })
+    .catch((err)=> {
+      console.log('line error:', err)
+    });
   },
 
   setPersonal: (userId, replyToken, firstTime) => {
@@ -683,7 +694,7 @@ function getImageMessage(message) {
 }
 
 function getMatchContentBubble(title, match) {
-  let container = options.matchContentBubble;
+  let container = _.cloneDeep(options.matchContentBubble);
   container.body.contents = [
     {
       type: 'text',

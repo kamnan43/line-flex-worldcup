@@ -86,14 +86,14 @@ function handleCommand(message, replyToken, source) {
 // listen on port
 const port = config.PORT;
 
-// var certOptions = {
-//   key: fs.readFileSync('./cert/privkey.pem'),
-//   cert: fs.readFileSync('./cert/fullchain.pem')
-// };
+var certOptions = {
+  key: fs.readFileSync('./cert/privkey.pem'),
+  cert: fs.readFileSync('./cert/fullchain.pem')
+};
 
-// app.listen(port, () => {
-//   console.log(`listening on ${port}`);
-// });
-// https.createServer(certOptions, app).listen(port + 800);
+app.listen(port, () => {
+  console.log(`listening on ${port}`);
+});
+https.createServer(certOptions, app).listen(port + 800);
 
-worldcup.sendGreetingMessage('', '');
+// worldcup.sendGreetingMessage('', '');

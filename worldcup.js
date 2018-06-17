@@ -223,7 +223,7 @@ function getMatchContentBubble(title, match) {
             color: '#666666',
             size: 'sm',
             flex: 1
-          }
+          },
           {
             type: 'text',
             text: `${card.home_fault + card.away_fault}`,

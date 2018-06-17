@@ -1,0 +1,8 @@
+{
+  "channelAccessToken": "xxxxxxxxx",
+  "channelSecret": "xxxxxxxxx",
+  "BASE_URL": "https://xxxxx.xxx",
+  "PORT": 8080,
+  "HTTPSPORT": 8081,
+  "gitDeploySecret": "xxxxxxxxx"
+}

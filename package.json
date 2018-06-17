@@ -1,0 +1,17 @@
+{
+  "name": "wouldcup",
+  "version": "0.0.0",
+  "description": "Worldcup with Flex Message",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "dependencies": {
+    "@line/bot-sdk": "^5.0.0",
+    "child_process": "^1.0.2",
+    "express": "^4.16.2",
+    "firebase-admin": "^5.12.0",
+    "moment": "^2.22.1",
+    "path": "^0.12.7"
+  }
+}

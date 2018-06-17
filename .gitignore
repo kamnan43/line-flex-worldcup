@@ -1,0 +1,5 @@
+/downloaded/*
+/node_modules/*
+/config.json
+/firebase-admin-key.json
+/cert/*

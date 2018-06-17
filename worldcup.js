@@ -92,7 +92,7 @@ module.exports = {
     let messages = [];
     let lastMatch = await getLastMatch();
     if (lastMatch.length > 0) {
-      bubble.push(getMatchContentBubble('Last Match', match[0]))
+      bubble.push(getMatchContentBubble('Last Match', lastMatch[0]))
       messages.push(lineHelper.createFlexCarouselMessage('Match Info', bubble));
     } else {
       messages.push(lineHelper.createTextMessage('No Last Match'));
@@ -107,7 +107,7 @@ module.exports = {
     let messages = [];
     let nextMatch = await getNextMatch();
     if (nextMatch.length > 0) {
-      bubble.push(getMatchContentBubble('Next Match', match[0]))
+      bubble.push(getMatchContentBubble('Next Match', nextMatch[0]))
       messages.push(lineHelper.createFlexCarouselMessage('Match Info', bubble));
     } else {
       messages.push(lineHelper.createTextMessage('No More Match'));

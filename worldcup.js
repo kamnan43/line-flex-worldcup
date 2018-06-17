@@ -219,10 +219,7 @@ function getMatchContentBubble(title, match) {
           {
             type: 'icon',
             url: `${config.BASE_URL}/static/${card.card}.png`,
-            wrap: true,
-            color: '#666666',
             size: 'sm',
-            flex: 1
           },
           {
             type: 'text',

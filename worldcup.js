@@ -168,29 +168,49 @@ function updateMemberData(userId, object) {
 }
 
 function getMatchContentBubble(title, match) {
-  let container = _.cloneDeep(options.matchContentBubble);
   let contents = [];
-
   // title
   contents.push({
     type: 'text',
-    text: title,
+    text: match.match_status,
     wrap: true,
     weight: 'bold',
     gravity: 'center',
     size: 'lg'
   });
-  // name
-  let matchName = match.match_live ?
-    `${match.match_hometeam_name} ${match.match_hometeam_score} : ${match.match_awayteam_score} ${match.match_awayteam_name}` :
-    `${match.match_hometeam_name} vs ${match.match_awayteam_name}`;
+  //name vs name
   contents.push({
-    type: 'text',
-    text: matchName,
-    wrap: true,
-    weight: 'bold',
-    gravity: 'center',
-    size: 'md'
+    type: 'box',
+    layout: 'baseline',
+    spacing: 'sm',
+    contents: [
+      {
+        type: 'text',
+        text: match.match_hometeam_name,
+        color: '#aaaaaa',
+        size: 'sm',
+        flex: 2,
+        align: 'start'
+      },
+      {
+        type: 'text',
+        text: `${match.match_hometeam_score} : ${match.match_awayteam_score}`,
+        wrap: false,
+        size: 'sm',
+        color: '#aaaaaa',
+        flex: 1,
+        align: 'center'
+      },
+      {
+        type: 'text',
+        text: match.match_awayteam_name,
+        wrap: true,
+        size: 'sm',
+        color: '#aaaaaa',
+        flex: 2,
+        align: 'end'
+      }
+    ]
   });
   // detail
   let detail = {
@@ -289,7 +309,7 @@ function getMatchContentBubble(title, match) {
   }
   detail.contents.push({
     "type": "separator",
-    "margin": "xl"
+    "margin": "xxl"
   });
   // group
   detail.contents.push({
@@ -339,8 +359,47 @@ function getMatchContentBubble(title, match) {
   });
 
   contents.push(detail);
-  container.body.contents = contents;
-  return container;
+
+  let header = {
+    type: 'box',
+    layout: 'vertical',
+    contents: [
+      {
+        type: 'text',
+        text: title,
+        size: 'xl',
+        weight: 'bold'
+      }
+    ]
+  };
+  let body = {
+    type: 'box',
+    layout: 'vertical',
+    spacing: 'md',
+    contents: contents,
+  };
+  let footer = {
+    type: 'box',
+    layout: 'vertical',
+    contents: [
+      {
+        type: 'button',
+        action: {
+          type: 'postback',
+          label: 'Subscribe Live Result',
+          data: 'subscribe',
+          displayText: 'subscribe'
+        },
+        style: 'primary'
+      }
+    ]
+  };
+  return {
+    type: 'bubble',
+    header: header,
+    body: body,
+    footer: footer
+  };
 }
 
 function updateFixture() {

@@ -128,7 +128,7 @@ function getMatchContentBubble(title, match) {
   });
   // name
   let matchName = match.match_live ?
-    `${match.match_hometeam_name}   ${match.match_hometeam_score} : ${match.match_awayteam_score}   ${match.match_awayteam_name}` :
+    `${match.match_hometeam_name} ${match.match_hometeam_score} : ${match.match_awayteam_score} ${match.match_awayteam_name}` :
     `${match.match_hometeam_name} vs ${match.match_awayteam_name}`;
   contents.push({
     type: 'text',
@@ -147,8 +147,8 @@ function getMatchContentBubble(title, match) {
     contents: []
   };
   // scorer
-  if (match.goalscorer && match.goalscorer.length > 0) {
-    match.goalscorer.forEach(scorer => {
+  if (match.goalscorer) {
+    match.goalscorer.filter(s => s.time !== '').forEach(scorer => {
       detail.contents.push({
         type: 'box',
         layout: 'baseline',
@@ -174,8 +174,8 @@ function getMatchContentBubble(title, match) {
     });
   }
   // card
-  if (match.cards && match.cards.length > 0) {
-    match.cards.forEach(card => {
+  if (match.cards) {
+    match.cards.filter(c => c.time !== '').forEach(card => {
       detail.contents.push({
         type: 'box',
         layout: 'baseline',
@@ -183,7 +183,7 @@ function getMatchContentBubble(title, match) {
         contents: [
           {
             type: 'text',
-            text: card.time,
+            text: card.time || '-',
             color: '#aaaaaa',
             size: 'sm',
             flex: 2

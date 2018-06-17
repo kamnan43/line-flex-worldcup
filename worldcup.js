@@ -410,11 +410,12 @@ function getMatchContentBubble(title, match) {
       }
     ]
   };
-  return {
+  let container = {
     type: 'bubble',
     body: body,
-    footer: footer
   };
+  if (match.live === '1') container.footer = footer;
+  return container;
 }
 
 function updateFixture() {
@@ -470,12 +471,11 @@ function getLiveMatch() {
     let list = [];
     fixturesRef
       .orderByChild('match_live')
+      .equalTo('1')
       .once("value", function (snapshot) {
         snapshot.forEach(function (snap) {
           var doc = snap.val();
-          if (doc.match_live === '1') {
-            list.push(doc);
-          }
+          list.push(doc);
         });
         list = list.sort(sortByMatchDateTime);
         resolve(list);
@@ -508,7 +508,7 @@ function getNextMatch() {
       .once("value", function (snapshot) {
         snapshot.forEach(function (snap) {
           var doc = snap.val();
-          if (doc.match_status !== 'FT') {
+          if (doc.match_status !== 'FT' && doc.match_live !== '1') {
             list.push(doc);
           }
         });

@@ -49,6 +49,8 @@ function handleEvent(event) {
             return worldcup.broadcastMessage(message.text);
           } else if (message.text.startsWith('@')) {
             return worldcup.sendCandidateProfile(userId, replyToken, message.text.replace('@', ''));
+          } else if (message.text.startsWith('menu')) {
+            return worldcup.sendMenuMessage(userId, replyToken);
           } else {
             return worldcup.sendGreetingMessage(userId, replyToken);
           }

@@ -48,6 +48,27 @@ module.exports = {
       });
   },
 
+  sendMenuMessage: async (userId, replyToken) => {
+    let bubble = _.cloneDeep(options.menuBubble);
+    let liveMatch = await getLiveMatch();
+    if (liveMatch.length > 0) {
+      liveMatch.forEach(match => {
+        bubble.body.contents.unshift(options.getLiveMatchBox(match))
+      });
+      bubble.body.contents.unshift(options.menuLiveBox);
+    }
+    let messages = [
+      lineHelper.createFlexCarouselMessage('Menu', bubble),
+    ];
+    line.replyMessage(replyToken, messages)
+      .then((msg) => {
+        console.log('line:', msg)
+      })
+      .catch((err) => {
+        console.log('line error:', err)
+      });
+  },
+
   sendGreetingMessage: async (userId, replyToken) => {
     let bubble = [];
     let liveMatch = await getLiveMatch();

@@ -10,7 +10,6 @@ const _ = require('lodash');
 const cp = require('child_process');
 const http = require('http');
 const fs = require('fs');
-const moment = require('moment');
 const firebase = require("firebase-admin");
 var firebaseConfig = config.firebase;
 firebaseConfig.credential = firebase.credential.cert(require(firebaseConfig.serviceAccountFile));

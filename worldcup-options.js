@@ -1,4 +1,5 @@
 const config = require('./config.json');
+const moment = require('moment');
 
 module.exports = {
   menuBubble: {
@@ -597,8 +598,8 @@ module.exports = {
       ]
     });
     // datetime
-    let datetime = moment(`${match.match_date} ${match.match_time} +05:00`);
-    console.log(datetime);
+    // let datetime = moment(`${match.match_date} ${match.match_time} +05:00`);
+    // console.log(datetime);
     detail.contents.push({
       type: 'box',
       layout: 'baseline',

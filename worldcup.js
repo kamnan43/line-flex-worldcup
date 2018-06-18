@@ -573,7 +573,8 @@ function getLiveReport() {
         // find in list
         let indexOfDoc = list.findIndex(i => i.match_id === doc.match_id);
         if (indexOfDoc >= 0) {
-          let difference = doc.events.filter(x => !list[indexOfDoc].events.includes(x));
+          // let difference = doc.events.filter(x => !list[indexOfDoc].events.includes(x));
+          let difference = _.difference(doc.events, list[indexOfDoc].events);
           console.log('difference', difference);
           list[indexOfDoc] = doc;
           // let isChanged = (list[indexOfDoc].events.length !== doc.events.length);

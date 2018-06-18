@@ -119,7 +119,7 @@ module.exports = {
   }
 }
 
-function sendMatchMessage: async (match) => {
+async function sendMatchMessage(match) {
   let bubble = [];
   let messages = [];
   if (match.length > 0) {

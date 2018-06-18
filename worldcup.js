@@ -202,7 +202,7 @@ function getMatchContentBubble(title, match) {
     contents: [
       {
         type: 'icon',
-        url: `${config.BASE_URL}/static/flag/${match.match_hometeam_name.replace(' ','')}.png`,
+        url: `${config.BASE_URL}/static/flag/${match.match_hometeam_name.replace(' ', '')}.png`,
         size: 'sm',
       },
       {
@@ -225,7 +225,7 @@ function getMatchContentBubble(title, match) {
       },
       {
         type: 'icon',
-        url: `${config.BASE_URL}/static/flag/${match.match_awayteam_name.replace(' ','')}.png`,
+        url: `${config.BASE_URL}/static/flag/${match.match_awayteam_name.replace(' ', '')}.png`,
         size: 'sm',
       }
     ]
@@ -290,7 +290,7 @@ function getMatchContentBubble(title, match) {
           },
           {
             type: 'icon',
-            url: `${config.BASE_URL}/static/flag/${(scorer.home_scorer ? match.match_hometeam_name : match.match_awayteam_name).replace(' ','')}.png`,
+            url: `${config.BASE_URL}/static/flag/${(scorer.home_scorer ? match.match_hometeam_name : match.match_awayteam_name).replace(' ', '')}.png`,
             size: 'sm',
           }
         ]
@@ -425,7 +425,7 @@ function getMatchContentBubble(title, match) {
         action: {
           type: 'postback',
           label: 'Subscribe Live Result',
-          data: 'SUBSCRIBE',
+          data: 'SUBSCRIBE_' + match.match_id,
           displayText: 'subscribe'
         },
         style: 'primary'
@@ -436,7 +436,7 @@ function getMatchContentBubble(title, match) {
     type: 'bubble',
     body: body,
   };
-  if (match.match_live === '1') container.footer = footer;
+  if (match.match_status !== 'FT') container.footer = footer;
   return container;
 }
 
@@ -506,20 +506,50 @@ function getLiveMatch() {
 }
 
 function getLiveReport() {
-  return new Promise((resolve, reject) => {
-    let list = [];
-    fixturesRef
-      .orderByChild('match_live')
-      .equalTo('1')
-      .on("value", function (snapshot) {
-        snapshot.forEach(function (snap) {
-          var doc = snap.val();
-          console.log('live=====>', doc);
+  let list = [];
+  fixturesRef
+    .orderByChild('match_live')
+    .equalTo('1')
+    .on("value", function (snapshot) {
+      snapshot.forEach(function (snap) {
+        var doc = snap.val();
+        doc.goalscorer = doc.goalscorer.filter(s => s.time !== '').map(s => {
+          type : 'goal',
+          time: +(s.time.replace('\'','')),
+          home_scorer: s.home_scorer,
+          score: s.score,
+          away_scorer: s.away_scorer,
         });
-        list = list.sort(sortByMatchDateTime);
-        resolve(list);
+        doc.cards = doc.cards.filter(s => s.time !== '').map(s=>{
+          type : 'card',
+          time: +(s.time.replace('\'','')),
+          home_fault: s.home_fault,
+          card: s.card,
+          away_fault: s.away_fault,
+        });
+        doc.lineup.home.substitutions = doc.lineup.home.substitutions.filter(s => s.lineup_time !== '').map(s=>{
+          type: 'subs',
+          side: 'home',
+          time: +(s.lineup_time.replace('\'','')),
+          lineup_player: s.lineup_player,
+        });
+        doc.lineup.away.substitutions = doc.lineup.away.substitutions.filter(s => s.lineup_time !== '').map(s=>{
+          type: 'subs',
+          side: 'away',
+          time: +(s.lineup_time.replace('\'','')),
+          lineup_player: s.lineup_player,
+        });
+        let events = [].concat(doc.goalscorer, doc.cards, doc.lineup.home.substitutions, doc.lineup.away.substitutions);
+        console.log('live=====>', events);
+        // find in list
+        // let old = list.filter(f => f.match_id === doc.match_id);
+        // if (old) {
+        //   let scoreChange = (old.goalscorer.length !== doc.goalscorer.length);
+        //   let cardChange = (old.cards.length !== doc.cards.length);
+        // }
       });
-  });
+      // list = list.sort(sortByMatchDateTime);
+    });
 }
 
 function getNextMatch() {

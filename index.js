@@ -71,13 +71,13 @@ function handleEvent(event) {
       let postbackData = event.postback.data.split("_", 2);
       let mode = postbackData[0];
       let data = postbackData[1];
-      switch(mode) {
-        case 'LIVE' : return worldcup.sendLiveMessage(userId, replyToken);
-        case 'LAST' : return worldcup.sendLastMessage(userId, replyToken);
-        case 'NEXT' : return worldcup.sendNextMessage(userId, replyToken);
-        case 'SUBSCRIBE' : return worldcup.getLiveReport();
-        case 'SCHEDULE' : return worldcup.sendMenuMessage(userId, replyToken);
-        case 'GROUP' : return worldcup.sendMenuMessage(userId, replyToken);
+      switch (mode) {
+        case 'LIVE': return worldcup.sendLiveMessage(userId, replyToken);
+        case 'LAST': return worldcup.sendLastMessage(userId, replyToken);
+        case 'NEXT': return worldcup.sendNextMessage(userId, replyToken);
+        case 'SUBSCRIBE': return worldcup.getLiveReport();
+        case 'SCHEDULE': return worldcup.sendMenuMessage(userId, replyToken);
+        case 'GROUP': return worldcup.sendMenuMessage(userId, replyToken);
       }
     default:
       throw new Error(`Unknown event: ${JSON.stringify(event)}`);
@@ -109,8 +109,13 @@ app.listen(port, () => {
   console.log(`listening on ${port}`);
 });
 https.createServer(certOptions, app).listen(port + 800);
-worldcup.updateFixture();
-worldcup.updateStanding();
 
-// worldcup.sendGreetingMessage('','');
-// worldcup.sendStandingMessage();
+setInterval(() => {
+  worldcup.updateFixture();
+}, 1000 * 60); // 1 minute
+
+setInterval(() => {
+  worldcup.updateStanding();
+}, 1000 * 60 * 10); // 10 minutes
+
+worldcup.getLiveReport();  // realtime database

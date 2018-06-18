@@ -129,7 +129,7 @@ module.exports = {
         contents: [
           {
             type: 'text',
-            text: team[0].league_name,
+            text: teams[0].league_name,
             weight: 'bold',
             size: 'xl',
             margin: 'md'

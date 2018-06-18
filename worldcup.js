@@ -567,14 +567,15 @@ function getLiveReport() {
           });
           events = events.concat(awaySubstitutions);
         }
-        doc.events = events.sort((a, b) => { return a.time < b.time });
+        doc.events = events.sort((a, b) => { return a.time > b.time });
         // console.log('live=====>', doc.events);
 
         // find in list
         let indexOfDoc = list.findIndex(i => i.match_id === doc.match_id);
         if (indexOfDoc >= 0) {
           let difference = doc.events.filter(x => !list[indexOfDoc].events.includes(x));
-            console.log('difference', difference);
+          console.log('difference', difference);
+          list[indexOfDoc] = doc;
           // let isChanged = (list[indexOfDoc].events.length !== doc.events.length);
           // if (isChanged) {
           //   let difference = doc.events.filter(x => !list.events.includes(x));

@@ -110,10 +110,12 @@ app.listen(port, () => {
 });
 https.createServer(certOptions, app).listen(port + 800);
 
+worldcup.updateFixture();
 setInterval(() => {
   worldcup.updateFixture();
 }, 1000 * 60); // 1 minute
 
+worldcup.updateStanding();
 setInterval(() => {
   worldcup.updateStanding();
 }, 1000 * 60 * 10); // 10 minutes

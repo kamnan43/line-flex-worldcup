@@ -441,6 +441,7 @@ function getMatchContentBubble(title, match) {
 }
 
 function updateFixture() {
+  console.log('updateFixture');
   Promise.all(config.apiFootball.leagues.map(leagueId => {
     return apifootball.getEvents(leagueId);
   })).then((result) => {
@@ -457,6 +458,7 @@ function updateFixture() {
 }
 
 function updateStanding() {
+  console.log('updateStanding');
   Promise.all(config.apiFootball.leagues.map(leagueId => {
     return apifootball.getStanding(leagueId);
   })).then((result) => {
@@ -506,6 +508,7 @@ function getLiveMatch() {
 }
 
 function getLiveReport() {
+  console.log('getLiveReport');
   let list = [];
   fixturesRef
     .orderByChild('match_live')
@@ -514,41 +517,56 @@ function getLiveReport() {
       snapshot.forEach(function (snap) {
         var doc = snap.val();
         console.log('doc', JSON.stringify(doc));
-        doc.goalscorer = doc.goalscorer.filter(s => s.time !== '').map(s => {
-          return {
-            type: 'goal',
-            time: s.time.replace('\'', ''),
-            home_scorer: s.home_scorer,
-            score: s.score,
-            away_scorer: s.away_scorer,
-          };
-        });
-        doc.cards = doc.cards.filter(s => s.time !== '').map(s => {
-          return {
-            type: 'card',
-            time: s.time.replace('\'', ''),
-            home_fault: s.home_fault,
-            card: s.card,
-            away_fault: s.away_fault,
-          }
-        });
-        doc.lineup.home.substitutions = doc.lineup.home.substitutions.filter(s => s.lineup_time !== '').map(s => {
-          return {
-            type: 'subs',
-            side: 'home',
-            time: (s.lineup_time.replace('\'', '')),
-            lineup_player: s.lineup_player,
-          }
-        });
-        doc.lineup.away.substitutions = doc.lineup.away.substitutions.filter(s => s.lineup_time !== '').map(s => {
-          return {
-            type: 'subs',
-            side: 'away',
-            time: (s.lineup_time.replace('\'', '')),
-            lineup_player: s.lineup_player,
-          }
-        });
-        let events = [].concat(doc.goalscorer, doc.cards, doc.lineup.home.substitutions, doc.lineup.away.substitutions);
+        let events = [];
+        if (doc.goalscorer) {
+          let goalscorer = doc.goalscorer.filter(s => s.time !== '').map(s => {
+            return {
+              type: 'goal',
+              time: s.time.replace('\'', ''),
+              home_scorer: s.home_scorer,
+              score: s.score,
+              away_scorer: s.away_scorer,
+            };
+          });
+          events.concat(goalscorer);
+        }
+
+        if (doc.cards) {
+          let cards = doc.cards.filter(s => s.time !== '').map(s => {
+            return {
+              type: 'card',
+              time: s.time.replace('\'', ''),
+              home_fault: s.home_fault,
+              card: s.card,
+              away_fault: s.away_fault,
+            }
+          });
+          events.concat(cards);
+        }
+
+        if (doc.lineup && doc.lineup.home && doc.lineup.home.substitutions) {
+          let homeSubstitutions = doc.lineup.home.substitutions.filter(s => s.lineup_time !== '').map(s => {
+            return {
+              type: 'subs',
+              side: 'home',
+              time: (s.lineup_time.replace('\'', '')),
+              lineup_player: s.lineup_player,
+            }
+          });
+          events.concat(homeSubstitutions);
+        }
+
+        if (doc.lineup && doc.lineup.away && doc.lineup.away.substitutions) {
+          let awaySubstitutions = doc.lineup.away.substitutions.filter(s => s.lineup_time !== '').map(s => {
+            return {
+              type: 'subs',
+              side: 'away',
+              time: (s.lineup_time.replace('\'', '')),
+              lineup_player: s.lineup_player,
+            }
+          });
+          events.concat(awaySubstitutions);
+        }
         console.log('live=====>', events);
         // find in list
         // let old = list.filter(f => f.match_id === doc.match_id);
@@ -580,6 +598,7 @@ function getNextMatch() {
 }
 
 function getStanding() {
+  console.log('getStanding');
   return new Promise((resolve, reject) => {
     let list = [];
     standingsRef

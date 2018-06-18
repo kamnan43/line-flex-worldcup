@@ -342,19 +342,15 @@ module.exports = {
         contents: [
           {
             type: 'text',
-            text: match.match_date,
+            text: `${match.match_date}   ${match.match_time}`,
             flex: 3,
-            align: 'start'
-          },
-          {
-            type: 'text',
-            text: match.match_time,
-            flex: 2,
+            size: 'sm',
             align: 'start'
           },
           {
             type: 'button',
-            flex: 2,
+            flex: 3,
+            height: 'sm',
             action: {
               type: 'postback',
               label: 'Detail',

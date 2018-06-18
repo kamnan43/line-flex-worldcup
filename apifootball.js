@@ -29,7 +29,7 @@ function getEvents(leagueId) {
         resolve(data);
       })
       .catch(function (err) {
-        console.log(`getEvents Error get data league : ${leagueId}`, err);
+        console.log(`getEvents Error get data league : ${leagueId}`);
         reject(err);
       });
   });
@@ -54,7 +54,7 @@ function getStanding(leagueId) {
         resolve(data);
       })
       .catch(function (err) {
-        console.log(`getStanding Error get data league : ${leagueId}`, err);
+        console.log(`getStanding Error get data league : ${leagueId}`);
         reject(err);
       });
   });

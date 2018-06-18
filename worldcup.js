@@ -522,7 +522,7 @@ function getLiveReport() {
           let goalscorer = doc.goalscorer.filter(s => s.time !== '').map(s => {
             return {
               type: 'goal',
-              time: s.time.replace('\'', ''),
+              time: +(s.time.replace('\'', '')),
               home_scorer: s.home_scorer,
               score: s.score,
               away_scorer: s.away_scorer,
@@ -535,7 +535,7 @@ function getLiveReport() {
           let cards = doc.cards.filter(s => s.time !== '').map(s => {
             return {
               type: 'card',
-              time: s.time.replace('\'', ''),
+              time: +(s.time.replace('\'', '')),
               home_fault: s.home_fault,
               card: s.card,
               away_fault: s.away_fault,
@@ -549,7 +549,7 @@ function getLiveReport() {
             return {
               type: 'subs',
               side: 'home',
-              time: (s.lineup_time.replace('\'', '')),
+              time: +(s.lineup_time.replace('\'', '')),
               lineup_player: s.lineup_player,
             }
           });
@@ -561,19 +561,28 @@ function getLiveReport() {
             return {
               type: 'subs',
               side: 'away',
-              time: (s.lineup_time.replace('\'', '')),
+              time: +(s.lineup_time.replace('\'', '')),
               lineup_player: s.lineup_player,
             }
           });
           events = events.concat(awaySubstitutions);
         }
-        console.log('live=====>', events);
+        doc.events = events.sort((a, b) => { return a.time < b.time });
+        console.log('live=====>', doc.events);
+
         // find in list
-        // let old = list.filter(f => f.match_id === doc.match_id);
-        // if (old) {
-        //   let scoreChange = (old.goalscorer.length !== doc.goalscorer.length);
-        //   let cardChange = (old.cards.length !== doc.cards.length);
-        // }
+        let indexOfDoc = list.findIndex(i => i.match_id === doc.match_id);
+        if (indexOfDoc >= 0) {
+          let difference = doc.events.filter(x => !list.events.includes(x));
+            console.log('difference', difference);
+          // let isChanged = (list[indexOfDoc].events.length !== doc.events.length);
+          // if (isChanged) {
+          //   let difference = doc.events.filter(x => !list.events.includes(x));
+          //   console.log('difference', difference);
+          // }
+        } else {
+          list.push(doc);
+        }
       });
       // list = list.sort(sortByMatchDateTime);
     });

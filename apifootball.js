@@ -23,9 +23,9 @@ function getEvents(leagueId) {
     })
       .then(function (body) {
         let data = JSON.parse(body);
-        fs.writeFile(`fixtures_${leagueId}.json`, JSON.stringify(data, null, 2), function (err) {
-          if (err) { return console.log(`getEvents Error write file league : ${leagueId}`, err); }
-        });
+        // fs.writeFile(`fixtures_${leagueId}.json`, JSON.stringify(data, null, 2), function (err) {
+        //   if (err) { return console.log(`getEvents Error write file league : ${leagueId}`, err); }
+        // });
         resolve(data);
       })
       .catch(function (err) {
@@ -48,9 +48,9 @@ function getStanding(leagueId) {
     })
       .then(function (body) {
         let data = JSON.parse(body);
-        fs.writeFile(`standing_${leagueId}.json`, JSON.stringify(data, null, 2), function (err) {
-          if (err) { return console.log(`getStanding Error write file league : ${leagueId}`, err); }
-        });
+        // fs.writeFile(`standing_${leagueId}.json`, JSON.stringify(data, null, 2), function (err) {
+        //   if (err) { return console.log(`getStanding Error write file league : ${leagueId}`, err); }
+        // });
         resolve(data);
       })
       .catch(function (err) {

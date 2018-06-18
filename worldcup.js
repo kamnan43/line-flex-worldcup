@@ -202,7 +202,7 @@ function getMatchContentBubble(title, match) {
     contents: [
       {
         type: 'icon',
-        url: `${config.BASE_URL}/static/flag/${match.match_hometeam_name}.png`,
+        url: `${config.BASE_URL}/static/flag/${match.match_hometeam_name.replace(' ','')}.png`,
         size: 'sm',
       },
       {
@@ -225,7 +225,7 @@ function getMatchContentBubble(title, match) {
       },
       {
         type: 'icon',
-        url: `${config.BASE_URL}/static/flag/${match.match_awayteam_name}.png`,
+        url: `${config.BASE_URL}/static/flag/${match.match_awayteam_name.replace(' ','')}.png`,
         size: 'sm',
       }
     ]
@@ -290,7 +290,7 @@ function getMatchContentBubble(title, match) {
           },
           {
             type: 'icon',
-            url: `${config.BASE_URL}/static/flag/${scorer.home_scorer ? match.match_hometeam_name : match.match_awayteam_name}.png`,
+            url: `${config.BASE_URL}/static/flag/${(scorer.home_scorer ? match.match_hometeam_name : match.match_awayteam_name).replace(' ','')}.png`,
             size: 'sm',
           }
         ]

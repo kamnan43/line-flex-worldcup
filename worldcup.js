@@ -88,6 +88,21 @@ module.exports = {
       .catch((err) => { console.log('line error:', err) });
   },
 
+  sendInfoMessage: async (userId, replyToken, matchId) => {
+    let bubble = [];
+    let messages = [];
+    let match = await getMatch(matchId);
+    if (match.length > 0) {
+      bubble.push(getMatchContentBubble('Match Info', match[0]))
+      messages.push(lineHelper.createFlexCarouselMessage('Match Info', bubble));
+    } else {
+      messages.push(lineHelper.createTextMessage('No Match'));
+    }
+    line.replyMessage(replyToken, messages)
+      .then((msg) => { console.log('line:', msg) })
+      .catch((err) => { console.log('line error:', err) });
+  },
+
   sendLastMessage: async (userId, replyToken) => {
     let bubble = [];
     let messages = [];
@@ -503,6 +518,21 @@ function getAllMatch() {
           list.push(snap.val());
         });
         list = list.sort(sortByMatchDateTime);
+        resolve(list);
+      });
+  });
+}
+
+function getMatch(matchId) {
+  return new Promise((resolve, reject) => {
+    let list = [];
+    fixturesRef
+      .orderByChild('match_id')
+      .equalTo(matchId)
+      .once("value", function (snapshot) {
+        snapshot.forEach(function (snap) {
+          list.push(snap.val());
+        });
         resolve(list);
       });
   });

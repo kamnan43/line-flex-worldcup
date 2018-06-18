@@ -337,6 +337,36 @@ module.exports = {
     matchs.forEach(match => {
       let row = {
         type: 'box',
+        layout: 'horizontal',
+        spacing: 'sm',
+        contents: [
+          {
+            type: 'text',
+            text: match.match_date,
+            flex: 3,
+            align: 'start'
+          },
+          {
+            type: 'text',
+            text: match.match_time,
+            flex: 2,
+            align: 'start'
+          },
+          {
+            type: 'button',
+            flex: 2,
+            align: 'end'
+            action: {
+              type: 'postback',
+              label: 'Detail',
+              data: 'INFO_' + match.match_id,
+              displayText: `${match.match_hometeam_name} VS ${match.match_awayteam_name}`
+            },
+          }
+        ]
+      };
+      let row2 = {
+        type: 'box',
         layout: 'baseline',
         spacing: 'sm',
         contents: [
@@ -371,6 +401,7 @@ module.exports = {
         ]
       };
       bubble.body.contents[2].contents.push(row);
+      bubble.body.contents[2].contents.push(row2);
     });
     
     return bubble;

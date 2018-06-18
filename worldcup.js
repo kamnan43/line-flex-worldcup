@@ -108,6 +108,12 @@ module.exports = {
         let group = list.filter(l => +(l.league_id) === leagueId);
         return options.getScheduleBubble(group);
       });
+
+      fs.writeFile(`schedule.json`, JSON.stringify(groupBubbles, null, 2), function (err) {
+        if (err) { return console.log(err); }
+        console.log("The schedule was saved!");
+      });
+
       let messages = [
         lineHelper.createFlexCarouselMessage('Schedule', groupBubbles),
       ];

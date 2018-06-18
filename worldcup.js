@@ -528,8 +528,7 @@ function getLiveReport() {
               away_scorer: s.away_scorer,
             };
           });
-          console.log('goalscorer', goalscorer);
-          events.concat(goalscorer);
+          events = events.concat(goalscorer);
         }
 
         if (doc.cards) {
@@ -542,7 +541,7 @@ function getLiveReport() {
               away_fault: s.away_fault,
             }
           });
-          events.concat(cards);
+          events = events.concat(cards);
         }
 
         if (doc.lineup && doc.lineup.home && doc.lineup.home.substitutions) {
@@ -554,7 +553,7 @@ function getLiveReport() {
               lineup_player: s.lineup_player,
             }
           });
-          events.concat(homeSubstitutions);
+          events = events.concat(homeSubstitutions);
         }
 
         if (doc.lineup && doc.lineup.away && doc.lineup.away.substitutions) {
@@ -566,7 +565,7 @@ function getLiveReport() {
               lineup_player: s.lineup_player,
             }
           });
-          events.concat(awaySubstitutions);
+          events = events.concat(awaySubstitutions);
         }
         console.log('live=====>', events);
         // find in list

@@ -405,7 +405,7 @@ module.exports = {
         ]
       };
       bubble.body.contents.push({ "type": "separator" });
-      bubble.body.contents.push(row2);
+      bubble.body.contents.push(row);
     });
 
     return bubble;

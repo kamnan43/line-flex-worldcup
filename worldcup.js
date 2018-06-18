@@ -513,6 +513,7 @@ function getLiveReport() {
     .on("value", function (snapshot) {
       snapshot.forEach(function (snap) {
         var doc = snap.val();
+        console.log('doc', JSON.stringify(doc));
         doc.goalscorer = doc.goalscorer.filter(s => s.time !== '').map(s => {
           return {
             type: 'goal',

@@ -214,9 +214,9 @@ module.exports = {
             type: 'button',
             action: {
               type: 'postback',
-              label: 'Group Match',
-              data: 'match',
-              displayText: 'match'
+              label: 'Schedule',
+              data: 'SCHEDULE',
+              displayText: 'Schedule'
             },
             style: 'primary'
           }
@@ -280,6 +280,92 @@ module.exports = {
             size: 'sm',
             color: '#111111',
             align: 'end'
+          }
+        ]
+      };
+      bubble.body.contents[2].contents.push(row);
+    });
+    
+    return bubble;
+  },
+  getScheduleBubble: (matchs) => {
+    let bubble = {
+      type: 'bubble',
+      body: {
+        type: 'box',
+        layout: 'vertical',
+        contents: [
+          {
+            type: 'text',
+            text: matchs[0].league_name,
+            weight: 'bold',
+            size: 'xl',
+            margin: 'md'
+          },
+          {
+            type: 'separator',
+            margin: 'xl'
+          },
+          {
+            type: 'box',
+            layout: 'vertical',
+            margin: 'md',
+            spacing: 'sm',
+            contents: [
+            ]
+          }
+        ]
+      },
+      footer: {
+        type: 'box',
+        layout: 'vertical',
+        contents: [
+          {
+            type: 'button',
+            action: {
+              type: 'postback',
+              label: 'Group',
+              data: 'GROUP',
+              displayText: 'Group'
+            },
+            style: 'primary'
+          }
+        ]
+      }
+    };
+    matchs.forEach(match => {
+      let row = {
+        type: 'box',
+        layout: 'baseline',
+        spacing: 'sm',
+        contents: [
+          {
+            type: 'icon',
+            url: `${config.BASE_URL}/static/flag/${match.match_hometeam_name.replace(' ', '')}.png`,
+            size: 'sm',
+          },
+          {
+            type: 'text',
+            text: match.match_hometeam_name,
+            flex: 3,
+            align: 'start'
+          },
+          {
+            type: 'text',
+            text: `${match.match_hometeam_score} : ${match.match_awayteam_score}`,
+            flex: 1,
+            align: 'center'
+          },
+          {
+            type: 'text',
+            text: match.match_awayteam_name,
+            flex: 3,
+            align: 'end'
+          },
+          {
+            type: 'icon',
+            url: `${config.BASE_URL}/static/flag/${match.match_awayteam_name.replace(' ', '')}.png`,
+            size: 'sm',
           }
         ]
       };

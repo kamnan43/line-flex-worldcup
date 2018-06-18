@@ -46,23 +46,15 @@ function handleEvent(event) {
             return handleCommand(message, replyToken, event.source);
           } else if (message.text.startsWith('[bc]')) {
             message.text = message.text.replace('[bc]', '');
-            return worldcup.broadcastMessage(message.text);
-          } else if (message.text.startsWith('@')) {
-            return worldcup.sendCandidateProfile(userId, replyToken, message.text.replace('@', ''));
-          } else if (message.text.startsWith('menu')) {
-            return worldcup.sendMenuMessage(userId, replyToken);
-          } else if (message.text.startsWith('live')) {
-            return worldcup.sendLiveMessage(userId, replyToken);
-          } else if (message.text.startsWith('next')) {
-            return worldcup.sendNextMessage(userId, replyToken);
+            return; // worldcup.broadcastMessage(message.text);
           } else {
-            return worldcup.sendGreetingMessage(userId, replyToken);
+            return; // worldcup.sendMenuMessage(userId, replyToken);
           }
         default:
           return worldcup.sendTextMessage(userId, replyToken, 'ระบบยังไม่รองรับข้อความรูปแบบนี้');
       }
     case 'follow':
-      return worldcup.sendGreetingMessage(userId, replyToken);
+      return worldcup.sendMenuMessage(userId, replyToken);
 
     case 'unfollow':
     // return worldcup.disableMember(userId);
@@ -76,7 +68,7 @@ function handleEvent(event) {
         case 'LAST': return worldcup.sendLastMessage(userId, replyToken);
         case 'NEXT': return worldcup.sendNextMessage(userId, replyToken);
         case 'SUBSCRIBE': return worldcup.getLiveReport();
-        case 'SCHEDULE': return worldcup.sendMenuMessage(userId, replyToken);
+        case 'SCHEDULE': return worldcup.sendScheduleMessage(userId, replyToken);
         case 'GROUP': return worldcup.sendStandingMessage(userId, replyToken);
       }
     default:
@@ -91,7 +83,7 @@ function handleCommand(message, replyToken, source) {
     case 'Next Match':
       return worldcup.sendNextMessage(source.userId, replyToken);
     case 'Schedule':
-      return worldcup.sendSchedule(source.userId, replyToken);
+      return worldcup.sendScheduleMessage(source.userId, replyToken);
     case 'Group':
       return worldcup.sendStandingMessage(source.userId, replyToken);
     default:

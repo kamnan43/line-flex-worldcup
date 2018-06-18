@@ -37,17 +37,17 @@ module.exports = {
     );
   },
 
-  broadcastMessage: (text) => {
-    let query = membersRef.orderByKey()
-      .once("value", function (snapshot) {
-        snapshot.forEach(function (snap) {
-          var doc = snap.val();
-          if (doc.status == 1) {
-            line.pushMessage(doc.userId, [lineHelper.createTextMessage(text)]);
-          }
-        });
-      });
-  },
+  // broadcastMessage: (text) => {
+  //   let query = membersRef.orderByKey()
+  //     .once("value", function (snapshot) {
+  //       snapshot.forEach(function (snap) {
+  //         var doc = snap.val();
+  //         if (doc.status == 1) {
+  //           line.pushMessage(doc.userId, [lineHelper.createTextMessage(text)]);
+  //         }
+  //       });
+  //     });
+  // },
 
   sendMenuMessage: async (userId, replyToken) => {
     let bubble = _.cloneDeep(options.menuBubble);
@@ -147,13 +147,10 @@ module.exports = {
 
   sendStandingMessage: async (userId, replyToken) => {
     getStanding().then((list) => {
-      console.log('list', list);
       let groupBubbles = config.apiFootball.leagues.map(leagueId => {
         let group = list.filter(l => +(l.league_id) === leagueId);
-        console.log('group', group);
         return options.getStandingBubble(group);
       });
-      console.log('groupBubbles', groupBubbles);
       let messages = [
         lineHelper.createFlexCarouselMessage('Group Standing', groupBubbles),
       ];
@@ -161,19 +158,21 @@ module.exports = {
         .then((msg) => { console.log('line:', msg) })
         .catch((err) => { console.log('line error:', err) });
     });
+  },
 
-
-
-    // let messages = [
-    //   lineHelper.createFlexCarouselMessage('Last/Next Match Info', [lastMatchBubble, nextMatchBubble]),
-    // ];
-    // line.replyMessage(replyToken, messages)
-    // .then((msg)=>{
-    //   console.log('line:', msg)
-    // })
-    // .catch((err)=> {
-    //   console.log('line error:', err)
-    // });
+  sendScheduleMessage: async (userId, replyToken) => {
+    getAllMatch().then((list) => {
+      let groupBubbles = config.apiFootball.leagues.map(leagueId => {
+        let group = list.filter(l => +(l.league_id) === leagueId);
+        return options.getScheduleBubble(group);
+      });
+      let messages = [
+        lineHelper.createFlexCarouselMessage('Schedule', groupBubbles),
+      ];
+      line.replyMessage(replyToken, messages)
+        .then((msg) => { console.log('line:', msg) })
+        .catch((err) => { console.log('line error:', err) });
+    });
   },
 
   disableMember: (userId) => {
@@ -489,6 +488,20 @@ function getLastMatch() {
           list.push(snap.val());
         });
         list = list.sort(sortByMatchDateTimeDesc);
+        resolve(list);
+      });
+  });
+}
+
+function getAllMatch() {
+  return new Promise((resolve, reject) => {
+    let list = [];
+    fixturesRef
+      .once("value", function (snapshot) {
+        snapshot.forEach(function (snap) {
+          list.push(snap.val());
+        });
+        list = list.sort(sortByMatchDateTime);
         resolve(list);
       });
   });

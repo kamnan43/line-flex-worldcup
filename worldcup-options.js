@@ -81,9 +81,9 @@ module.exports = {
                   style: 'primary',
                   action: {
                     type: 'postback',
-                    label: 'Group',
-                    displayText: 'Group',
-                    data: 'GROUP'
+                    label: 'Table',
+                    displayText: 'Table',
+                    data: 'TABLE'
                   }
                 }
               ]
@@ -324,6 +324,7 @@ module.exports = {
       }
     };
     matchs.forEach(match => {
+      let matchDateTime = moment(`${match.match_date} ${match.match_time}`).add(5, 'hours');
       let row = {
         type: 'box',
         layout: 'horizontal',
@@ -337,7 +338,7 @@ module.exports = {
               {
                 type: 'text',
                 size: 'sm',
-                text: `${match.match_date}   ${match.match_time}`,
+                text: `${matchDateTime.format('YYYY-MM-DD hh:mm')}`,
                 align: 'start'
               },
               {
@@ -601,9 +602,7 @@ module.exports = {
         }
       ]
     });
-    // datetime
-    // let datetime = moment(`${match.match_date} ${match.match_time} +05:00`);
-    // console.log(datetime);
+    let matchDateTime = moment(`${match.match_date} ${match.match_time}`).add(5, 'hours');
     detail.contents.push({
       type: 'box',
       layout: 'baseline',
@@ -618,7 +617,7 @@ module.exports = {
         },
         {
           type: 'text',
-          text: `${match.match_date}, ${match.match_time}`,
+          text: `${matchDateTime.format('YYYY-MM-DD hh:mm')}`,
           wrap: true,
           size: 'sm',
           color: '#666666',

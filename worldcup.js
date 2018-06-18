@@ -131,7 +131,7 @@ async function sendMatchMessage(match) {
   line.replyMessage(replyToken, messages)
     .then((msg) => { console.log('line:', msg) })
     .catch((err) => { console.log('line error:', err) });
-},
+}
 
 function getLiveMatch() {
   return new Promise((resolve, reject) => {

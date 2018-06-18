@@ -227,6 +227,7 @@ module.exports = {
       let row = {
         type: 'box',
         layout: 'horizontal',
+        margin: 'md',
         contents: [
           {
             type: 'box',

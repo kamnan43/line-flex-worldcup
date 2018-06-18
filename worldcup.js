@@ -355,7 +355,7 @@ function getMatchContentBubble(title, match) {
   detail.contents.push({
     type: 'box',
     layout: 'baseline',
-    spacing: 'md',
+    margin: 'md',
     contents: [
       {
         type: 'text',

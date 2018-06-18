@@ -332,9 +332,11 @@ module.exports = {
           {
             type: 'box',
             layout: 'vertical',
+            flex: 5,
             contents: [
               {
                 type: 'text',
+                size: 'sm',
                 text: `${match.match_date}   ${match.match_time}`,
                 align: 'start'
               },
@@ -356,7 +358,7 @@ module.exports = {
                   },
                   {
                     type: 'text',
-                    text: `${match.match_hometeam_score}`,
+                    text: `${match.match_hometeam_score || '?'}`,
                     flex: 1,
                     align: 'center'
                   },
@@ -380,7 +382,7 @@ module.exports = {
                   },
                   {
                     type: 'text',
-                    text: `${match.match_awayteam_score}`,
+                    text: `${match.match_awayteam_score || '?'}`,
                     flex: 1,
                     align: 'center'
                   },
@@ -395,6 +397,8 @@ module.exports = {
             type: 'button',
             flex: 3,
             height: 'sm',
+            gravity: 'center',
+            style: 'secondary',
             action: {
               type: 'postback',
               label: 'Detail',

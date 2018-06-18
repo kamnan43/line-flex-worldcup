@@ -286,7 +286,7 @@ module.exports = {
       };
       bubble.body.contents[2].contents.push(row);
     });
-    
+
     return bubble;
   },
   getScheduleBubble: (matchs) => {
@@ -302,18 +302,6 @@ module.exports = {
             weight: 'bold',
             size: 'xl',
             margin: 'md'
-          },
-          {
-            type: 'separator',
-            margin: 'xl'
-          },
-          {
-            type: 'box',
-            layout: 'vertical',
-            margin: 'md',
-            spacing: 'sm',
-            contents: [
-            ]
           }
         ]
       },
@@ -341,11 +329,66 @@ module.exports = {
         spacing: 'sm',
         contents: [
           {
-            type: 'text',
-            text: `${match.match_date}   ${match.match_time}`,
-            flex: 3,
-            size: 'sm',
-            align: 'start'
+            type: 'box',
+            layout: 'vertical',
+            contents: [
+              {
+                type: 'text',
+                text: `${match.match_date}   ${match.match_time}`,
+                align: 'start'
+              },
+              {
+                type: 'box',
+                layout: 'baseline',
+                spacing: 'sm',
+                contents: [
+                  {
+                    type: 'icon',
+                    url: `${config.BASE_URL}/static/flag/${match.match_hometeam_name.replace(' ', '')}.png`,
+                    size: 'sm',
+                  },
+                  {
+                    type: 'text',
+                    text: match.match_hometeam_name,
+                    flex: 3,
+                    align: 'start'
+                  },
+                  {
+                    type: 'text',
+                    text: `${match.match_hometeam_score}`,
+                    flex: 1,
+                    align: 'center'
+                  },
+                ]
+              },
+              {
+                type: 'box',
+                layout: 'baseline',
+                spacing: 'sm',
+                contents: [
+                  {
+                    type: 'icon',
+                    url: `${config.BASE_URL}/static/flag/${match.match_awayteam_name.replace(' ', '')}.png`,
+                    size: 'sm',
+                  },
+                  {
+                    type: 'text',
+                    text: match.match_awayteam_name,
+                    flex: 3,
+                    align: 'start'
+                  },
+                  {
+                    type: 'text',
+                    text: `${match.match_awayteam_score}`,
+                    flex: 1,
+                    align: 'center'
+                  },
+                ]
+              }
+            ]
+          },
+          {
+            type: 'separator',
           },
           {
             type: 'button',
@@ -360,47 +403,268 @@ module.exports = {
           }
         ]
       };
-      let row2 = {
+      bubble.body.contents.push({ "type": "separator" });
+      bubble.body.contents.push(row2);
+    });
+
+    return bubble;
+  },
+  getMatchContentBubble: (title, match) => {
+    let contents = [];
+    // title
+    contents.push({
+      type: 'text',
+      text: match.match_status || 'Next Match',
+      wrap: true,
+      weight: 'bold',
+      gravity: 'center',
+      size: 'lg'
+    });
+    //name vs name
+    contents.push({
+      type: 'box',
+      layout: 'baseline',
+      spacing: 'sm',
+      contents: [
+        {
+          type: 'icon',
+          url: `${config.BASE_URL}/static/flag/${match.match_hometeam_name.replace(' ', '')}.png`,
+          size: 'sm',
+        },
+        {
+          type: 'text',
+          text: match.match_hometeam_name,
+          flex: 3,
+          align: 'start'
+        },
+        {
+          type: 'text',
+          text: `${match.match_hometeam_score} : ${match.match_awayteam_score}`,
+          flex: 1,
+          align: 'center'
+        },
+        {
+          type: 'text',
+          text: match.match_awayteam_name,
+          flex: 3,
+          align: 'end'
+        },
+        {
+          type: 'icon',
+          url: `${config.BASE_URL}/static/flag/${match.match_awayteam_name.replace(' ', '')}.png`,
+          size: 'sm',
+        }
+      ]
+    });
+    // detail
+    let detail = {
+      type: 'box',
+      layout: 'vertical',
+      margin: 'lg',
+      spacing: 'sm',
+      contents: []
+    };
+    // scorer
+    if (match.goalscorer) {
+      detail.contents.push({
         type: 'box',
         layout: 'baseline',
         spacing: 'sm',
         contents: [
           {
-            type: 'icon',
-            url: `${config.BASE_URL}/static/flag/${match.match_hometeam_name.replace(' ', '')}.png`,
+            type: 'text',
+            text: 'Scorer',
+            color: '#aaaaaa',
             size: 'sm',
-          },
-          {
-            type: 'text',
-            text: match.match_hometeam_name,
-            flex: 3,
-            align: 'start'
-          },
-          {
-            type: 'text',
-            text: `${match.match_hometeam_score} : ${match.match_awayteam_score}`,
-            flex: 1,
-            align: 'center'
-          },
-          {
-            type: 'text',
-            text: match.match_awayteam_name,
-            flex: 3,
-            align: 'end'
-          },
-          {
-            type: 'icon',
-            url: `${config.BASE_URL}/static/flag/${match.match_awayteam_name.replace(' ', '')}.png`,
-            size: 'sm',
+            weight: 'bold',
           }
         ]
-      };
-      bubble.body.contents[2].contents.push(row);
-      bubble.body.contents[2].contents.push(row2);
+      });
+      match.goalscorer.filter(s => s.time !== '').forEach(scorer => {
+        detail.contents.push({
+          type: 'box',
+          layout: 'baseline',
+          spacing: 'sm',
+          contents: [
+            {
+              type: 'text',
+              text: scorer.time,
+              color: '#aaaaaa',
+              size: 'sm',
+              flex: 1
+            },
+            {
+              type: 'text',
+              text: `${scorer.score}`,
+              wrap: true,
+              color: '#666666',
+              size: 'sm',
+              flex: 1
+            },
+            {
+              type: 'icon',
+              url: `${config.BASE_URL}/static/football.png`,
+              size: 'sm',
+            },
+            {
+              type: 'text',
+              text: `${scorer.home_scorer + scorer.away_scorer}`,
+              wrap: true,
+              color: '#666666',
+              size: 'sm',
+              flex: 4
+            },
+            {
+              type: 'icon',
+              url: `${config.BASE_URL}/static/flag/${(scorer.home_scorer ? match.match_hometeam_name : match.match_awayteam_name).replace(' ', '')}.png`,
+              size: 'sm',
+            }
+          ]
+        });
+      });
+    }
+    // card
+    if (match.cards) {
+      detail.contents.push({
+        type: 'box',
+        layout: 'baseline',
+        spacing: 'sm',
+        contents: [
+          {
+            type: 'text',
+            text: 'Card',
+            color: '#aaaaaa',
+            size: 'sm',
+            weight: 'bold',
+          }
+        ]
+      });
+      match.cards.filter(c => c.time !== '').forEach(card => {
+        detail.contents.push({
+          type: 'box',
+          layout: 'baseline',
+          spacing: 'sm',
+          contents: [
+            {
+              type: 'text',
+              text: card.time || '-',
+              color: '#aaaaaa',
+              size: 'sm',
+              flex: 1
+            },
+            {
+              type: 'icon',
+              url: `${config.BASE_URL}/static/${card.card}.png`,
+              size: 'sm',
+            },
+            {
+              type: 'text',
+              text: `${card.home_fault + card.away_fault}`,
+              wrap: true,
+              color: '#666666',
+              size: 'sm',
+              flex: 4
+            }
+          ]
+        });
+      });
+    }
+    detail.contents.push({
+      "type": "separator",
+      "margin": "xxl"
     });
-    
-    return bubble;
-  },
+    // group
+    detail.contents.push({
+      type: 'box',
+      layout: 'baseline',
+      margin: 'md',
+      contents: [
+        {
+          type: 'text',
+          text: 'Group',
+          color: '#aaaaaa',
+          size: 'sm',
+          flex: 2
+        },
+        {
+          type: 'text',
+          text: `${match.league_name.replace(' Group ', '')}`,
+          wrap: true,
+          color: '#666666',
+          size: 'sm',
+          flex: 4
+        }
+      ]
+    });
+    // datetime
+    let datetime = moment(`${match.match_date} ${match.match_time} +05:00`);
+    console.log(datetime);
+    detail.contents.push({
+      type: 'box',
+      layout: 'baseline',
+      spacing: 'sm',
+      contents: [
+        {
+          type: 'text',
+          text: 'Date',
+          color: '#aaaaaa',
+          size: 'sm',
+          flex: 2
+        },
+        {
+          type: 'text',
+          text: `${match.match_date}, ${match.match_time}`,
+          wrap: true,
+          size: 'sm',
+          color: '#666666',
+          flex: 4
+        }
+      ]
+    });
+
+    contents.push(detail);
+
+    let header = {
+      type: 'box',
+      layout: 'vertical',
+      contents: [
+        {
+          type: 'text',
+          text: title,
+          size: 'xl',
+          weight: 'bold'
+        }
+      ]
+    };
+    let body = {
+      type: 'box',
+      layout: 'vertical',
+      spacing: 'md',
+      contents: contents,
+    };
+    let footer = {
+      type: 'box',
+      layout: 'vertical',
+      contents: [
+        {
+          type: 'button',
+          action: {
+            type: 'postback',
+            label: 'Subscribe Live Result',
+            data: 'SUBSCRIBE_' + match.match_id,
+            displayText: 'subscribe'
+          },
+          style: 'primary'
+        }
+      ]
+    };
+    let container = {
+      type: 'bubble',
+      body: body,
+    };
+    // if (match.match_status !== 'FT') container.footer = footer;
+    return container;
+  }
 }
 
 function createPostBackOption(label, key, data) {

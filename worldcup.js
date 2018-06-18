@@ -63,108 +63,35 @@ module.exports = {
       lineHelper.createFlexMessage('Menu', bubble),
     ];
     line.replyMessage(replyToken, messages)
-      .then((msg) => {
-        console.log('line:', msg)
-      })
-      .catch((err) => {
-        console.log('line error:', err)
-      });
+      .then((msg) => { console.log('line:', msg) })
+      .catch((err) => { console.log('line error:', err) });
   },
 
   sendLiveMessage: async (userId, replyToken) => {
-    let bubble = [];
-    let messages = [];
     let liveMatch = await getLiveMatch();
-    if (liveMatch.length > 0) {
-      liveMatch.forEach(match => {
-        bubble.push(getMatchContentBubble('LIVE Match', match))
-      });
-      messages.push(lineHelper.createFlexCarouselMessage('Match Info', bubble));
-    } else {
-      messages.push(lineHelper.createTextMessage('No Live Match Now'));
-    }
-    line.replyMessage(replyToken, messages)
-      .then((msg) => { console.log('line:', msg) })
-      .catch((err) => { console.log('line error:', err) });
+    this.sendMatchMessage(liveMatch);
   },
 
   sendInfoMessage: async (userId, replyToken, matchId) => {
-    let bubble = [];
-    let messages = [];
     let match = await getMatch(matchId);
-    if (match.length > 0) {
-      bubble.push(getMatchContentBubble('Match Info', match[0]))
-      messages.push(lineHelper.createFlexCarouselMessage('Match Info', bubble));
-    } else {
-      messages.push(lineHelper.createTextMessage('No Match'));
-    }
-    line.replyMessage(replyToken, messages)
-      .then((msg) => { console.log('line:', msg) })
-      .catch((err) => { console.log('line error:', err) });
+    this.sendMatchMessage(match);
   },
 
   sendLastMessage: async (userId, replyToken) => {
-    let bubble = [];
-    let messages = [];
     let lastMatch = await getLastMatch();
-    if (lastMatch.length > 0) {
-      bubble.push(getMatchContentBubble('Last Match', lastMatch[0]))
-      messages.push(lineHelper.createFlexCarouselMessage('Match Info', bubble));
-    } else {
-      messages.push(lineHelper.createTextMessage('No Last Match'));
-    }
-    line.replyMessage(replyToken, messages)
-      .then((msg) => { console.log('line:', msg) })
-      .catch((err) => { console.log('line error:', err) });
+    this.sendMatchMessage(lastMatch);
   },
 
   sendNextMessage: async (userId, replyToken) => {
-    let bubble = [];
-    let messages = [];
     let nextMatch = await getNextMatch();
-    if (nextMatch.length > 0) {
-      bubble.push(getMatchContentBubble('Next Match', nextMatch[0]))
-      messages.push(lineHelper.createFlexCarouselMessage('Match Info', bubble));
-    } else {
-      messages.push(lineHelper.createTextMessage('No More Match'));
-    }
-    line.replyMessage(replyToken, messages)
-      .then((msg) => { console.log('line:', msg) })
-      .catch((err) => { console.log('line error:', err) });
-  },
-
-  sendGreetingMessage: async (userId, replyToken) => {
-    let bubble = [];
-    let liveMatch = await getLiveMatch();
-    if (liveMatch.length > 0) {
-      liveMatch.forEach(match => {
-        bubble.push(getMatchContentBubble('LIVE Match', match))
-      });
-    } else {
-      let lastMatch = await getLastMatch();
-      if (lastMatch.length > 0) {
-        bubble.push(getMatchContentBubble('Last Match', lastMatch[0]));
-      }
-    }
-
-    let nextMatch = await getNextMatch();
-    if (nextMatch.length > 0) {
-      bubble.push(getMatchContentBubble('Next Match', nextMatch[0]));
-    }
-
-    let messages = [
-      lineHelper.createFlexCarouselMessage('Match Info', bubble),
-    ];
-    line.replyMessage(replyToken, messages)
-      .then((msg) => { console.log('line:', msg) })
-      .catch((err) => { console.log('line error:', err) });
+    this.sendMatchMessage(nextMatch);
   },
 
   sendStandingMessage: async (userId, replyToken) => {
     getStanding().then((list) => {
       let groupBubbles = config.apiFootball.leagues.map(leagueId => {
         let group = list.filter(l => +(l.league_id) === leagueId);
-        group = group.sort((a, b)=>{ return a.overall_league_position - b.overall_league_position});
+        group = group.sort((a, b) => { return a.overall_league_position - b.overall_league_position });
         return options.getStandingBubble(group);
       });
       let messages = [
@@ -189,307 +116,37 @@ module.exports = {
         .then((msg) => { console.log('line:', msg) })
         .catch((err) => { console.log('line error:', err) });
     });
-  },
-
-  disableMember: (userId) => {
-    updateMemberData(userId, { 'status': -1 });
   }
 }
 
-function updateMemberData(userId, object) {
-  object['lastActionDate'] = Date.now();
-  var memberRef = database.ref("/members/" + userId);
-  return memberRef.update(object);
-}
+function sendMatchMessage: async (match) => {
+  let bubble = [];
+  let messages = [];
+  if (match.length > 0) {
+    bubble.push(options.getMatchContentBubble('Match Info', match[0]))
+    messages.push(lineHelper.createFlexCarouselMessage('Match Info', bubble));
+  } else {
+    messages.push(lineHelper.createTextMessage('No Match'));
+  }
+  line.replyMessage(replyToken, messages)
+    .then((msg) => { console.log('line:', msg) })
+    .catch((err) => { console.log('line error:', err) });
+},
 
-function getMatchContentBubble(title, match) {
-  let contents = [];
-  // title
-  contents.push({
-    type: 'text',
-    text: match.match_status || 'Next Match',
-    wrap: true,
-    weight: 'bold',
-    gravity: 'center',
-    size: 'lg'
-  });
-  //name vs name
-  contents.push({
-    type: 'box',
-    layout: 'baseline',
-    spacing: 'sm',
-    contents: [
-      {
-        type: 'icon',
-        url: `${config.BASE_URL}/static/flag/${match.match_hometeam_name.replace(' ', '')}.png`,
-        size: 'sm',
-      },
-      {
-        type: 'text',
-        text: match.match_hometeam_name,
-        flex: 3,
-        align: 'start'
-      },
-      {
-        type: 'text',
-        text: `${match.match_hometeam_score} : ${match.match_awayteam_score}`,
-        flex: 1,
-        align: 'center'
-      },
-      {
-        type: 'text',
-        text: match.match_awayteam_name,
-        flex: 3,
-        align: 'end'
-      },
-      {
-        type: 'icon',
-        url: `${config.BASE_URL}/static/flag/${match.match_awayteam_name.replace(' ', '')}.png`,
-        size: 'sm',
-      }
-    ]
-  });
-  // detail
-  let detail = {
-    type: 'box',
-    layout: 'vertical',
-    margin: 'lg',
-    spacing: 'sm',
-    contents: []
-  };
-  // scorer
-  if (match.goalscorer) {
-    detail.contents.push({
-      type: 'box',
-      layout: 'baseline',
-      spacing: 'sm',
-      contents: [
-        {
-          type: 'text',
-          text: 'Scorer',
-          color: '#aaaaaa',
-          size: 'sm',
-          weight: 'bold',
-        }
-      ]
-    });
-    match.goalscorer.filter(s => s.time !== '').forEach(scorer => {
-      detail.contents.push({
-        type: 'box',
-        layout: 'baseline',
-        spacing: 'sm',
-        contents: [
-          {
-            type: 'text',
-            text: scorer.time,
-            color: '#aaaaaa',
-            size: 'sm',
-            flex: 1
-          },
-          {
-            type: 'text',
-            text: `${scorer.score}`,
-            wrap: true,
-            color: '#666666',
-            size: 'sm',
-            flex: 1
-          },
-          {
-            type: 'icon',
-            url: `${config.BASE_URL}/static/football.png`,
-            size: 'sm',
-          },
-          {
-            type: 'text',
-            text: `${scorer.home_scorer + scorer.away_scorer}`,
-            wrap: true,
-            color: '#666666',
-            size: 'sm',
-            flex: 4
-          },
-          {
-            type: 'icon',
-            url: `${config.BASE_URL}/static/flag/${(scorer.home_scorer ? match.match_hometeam_name : match.match_awayteam_name).replace(' ', '')}.png`,
-            size: 'sm',
-          }
-        ]
+function getLiveMatch() {
+  return new Promise((resolve, reject) => {
+    let list = [];
+    fixturesRef
+      .orderByChild('match_live')
+      .equalTo('1')
+      .once("value", function (snapshot) {
+        snapshot.forEach(function (snap) {
+          var doc = snap.val();
+          list.push(doc);
+        });
+        list = list.sort(sortByMatchDateTime);
+        resolve(list);
       });
-    });
-  }
-  // card
-  if (match.cards) {
-    detail.contents.push({
-      type: 'box',
-      layout: 'baseline',
-      spacing: 'sm',
-      contents: [
-        {
-          type: 'text',
-          text: 'Card',
-          color: '#aaaaaa',
-          size: 'sm',
-          weight: 'bold',
-        }
-      ]
-    });
-    match.cards.filter(c => c.time !== '').forEach(card => {
-      detail.contents.push({
-        type: 'box',
-        layout: 'baseline',
-        spacing: 'sm',
-        contents: [
-          {
-            type: 'text',
-            text: card.time || '-',
-            color: '#aaaaaa',
-            size: 'sm',
-            flex: 1
-          },
-          {
-            type: 'icon',
-            url: `${config.BASE_URL}/static/${card.card}.png`,
-            size: 'sm',
-          },
-          {
-            type: 'text',
-            text: `${card.home_fault + card.away_fault}`,
-            wrap: true,
-            color: '#666666',
-            size: 'sm',
-            flex: 4
-          }
-        ]
-      });
-    });
-  }
-  detail.contents.push({
-    "type": "separator",
-    "margin": "xxl"
-  });
-  // group
-  detail.contents.push({
-    type: 'box',
-    layout: 'baseline',
-    margin: 'md',
-    contents: [
-      {
-        type: 'text',
-        text: 'Group',
-        color: '#aaaaaa',
-        size: 'sm',
-        flex: 2
-      },
-      {
-        type: 'text',
-        text: `${match.league_name.replace(' Group ', '')}`,
-        wrap: true,
-        color: '#666666',
-        size: 'sm',
-        flex: 4
-      }
-    ]
-  });
-  // datetime
-  let datetime = moment(`${match.match_date} ${match.match_time} +05:00`);
-  console.log(datetime);
-  detail.contents.push({
-    type: 'box',
-    layout: 'baseline',
-    spacing: 'sm',
-    contents: [
-      {
-        type: 'text',
-        text: 'Date',
-        color: '#aaaaaa',
-        size: 'sm',
-        flex: 2
-      },
-      {
-        type: 'text',
-        text: `${match.match_date}, ${match.match_time}`,
-        wrap: true,
-        size: 'sm',
-        color: '#666666',
-        flex: 4
-      }
-    ]
-  });
-
-  contents.push(detail);
-
-  let header = {
-    type: 'box',
-    layout: 'vertical',
-    contents: [
-      {
-        type: 'text',
-        text: title,
-        size: 'xl',
-        weight: 'bold'
-      }
-    ]
-  };
-  let body = {
-    type: 'box',
-    layout: 'vertical',
-    spacing: 'md',
-    contents: contents,
-  };
-  let footer = {
-    type: 'box',
-    layout: 'vertical',
-    contents: [
-      {
-        type: 'button',
-        action: {
-          type: 'postback',
-          label: 'Subscribe Live Result',
-          data: 'SUBSCRIBE_' + match.match_id,
-          displayText: 'subscribe'
-        },
-        style: 'primary'
-      }
-    ]
-  };
-  let container = {
-    type: 'bubble',
-    body: body,
-  };
-  // if (match.match_status !== 'FT') container.footer = footer;
-  return container;
-}
-
-function updateFixture() {
-  console.log('updateFixture');
-  Promise.all(config.apiFootball.leagues.map(leagueId => {
-    return apifootball.getEvents(leagueId);
-  })).then((result) => {
-    var fixtures = [].concat.apply([], result);
-    fs.writeFile(`fixtures.json`, JSON.stringify(fixtures, null, 2), function (err) {
-      if (err) { return console.log(err); }
-      console.log("The file was saved!");
-    });
-    fixtures.forEach(fixture => {
-      var fixturesRef = database.ref("/fixtures/" + fixture.match_id);
-      fixturesRef.set(fixture);
-    });
-  });
-}
-
-function updateStanding() {
-  console.log('updateStanding');
-  Promise.all(config.apiFootball.leagues.map(leagueId => {
-    return apifootball.getStanding(leagueId);
-  })).then((result) => {
-    var standings = [].concat.apply([], result);
-    fs.writeFile(`standing.json`, JSON.stringify(standings, null, 2), function (err) {
-      if (err) { return console.log(err); }
-      console.log("The file was saved!");
-    });
-    standings.forEach(standing => {
-      var standingsRef = database.ref("/standing/" + standing.team_name);
-      standingsRef.set(standing);
-    });
   });
 }
 
@@ -504,6 +161,24 @@ function getLastMatch() {
           list.push(snap.val());
         });
         list = list.sort(sortByMatchDateTimeDesc);
+        resolve(list);
+      });
+  });
+}
+
+function getNextMatch() {
+  return new Promise((resolve, reject) => {
+    let list = [];
+    fixturesRef
+      .orderByChild('match_status')
+      .once("value", function (snapshot) {
+        snapshot.forEach(function (snap) {
+          var doc = snap.val();
+          if (doc.match_status !== 'FT' && doc.match_live !== '1') {
+            list.push(doc);
+          }
+        });
+        list = list.sort(sortByMatchDateTime);
         resolve(list);
       });
   });
@@ -538,18 +213,15 @@ function getMatch(matchId) {
   });
 }
 
-function getLiveMatch() {
+function getStanding() {
+  console.log('getStanding');
   return new Promise((resolve, reject) => {
     let list = [];
-    fixturesRef
-      .orderByChild('match_live')
-      .equalTo('1')
+    standingsRef
       .once("value", function (snapshot) {
         snapshot.forEach(function (snap) {
-          var doc = snap.val();
-          list.push(doc);
+          list.push(snap.val());
         });
-        list = list.sort(sortByMatchDateTime);
         resolve(list);
       });
   });
@@ -638,38 +310,6 @@ function getLiveReport() {
     });
 }
 
-function getNextMatch() {
-  return new Promise((resolve, reject) => {
-    let list = [];
-    fixturesRef
-      .orderByChild('match_status')
-      .once("value", function (snapshot) {
-        snapshot.forEach(function (snap) {
-          var doc = snap.val();
-          if (doc.match_status !== 'FT' && doc.match_live !== '1') {
-            list.push(doc);
-          }
-        });
-        list = list.sort(sortByMatchDateTime);
-        resolve(list);
-      });
-  });
-}
-
-function getStanding() {
-  console.log('getStanding');
-  return new Promise((resolve, reject) => {
-    let list = [];
-    standingsRef
-      .once("value", function (snapshot) {
-        snapshot.forEach(function (snap) {
-          list.push(snap.val());
-        });
-        resolve(list);
-      });
-  });
-}
-
 function sortByMatchDateTime(a, b) {
   if (a.match_date < b.match_date) return -1;
   else if (a.match_date > b.match_date) return 1;
@@ -680,4 +320,38 @@ function sortByMatchDateTimeDesc(a, b) {
   if (a.match_date < b.match_date) return 1;
   else if (a.match_date > b.match_date) return -1;
   else return a.match_time < b.match_time ? 1 : -1;
+}
+
+function updateFixture() {
+  console.log('updateFixture');
+  Promise.all(config.apiFootball.leagues.map(leagueId => {
+    return apifootball.getEvents(leagueId);
+  })).then((result) => {
+    var fixtures = [].concat.apply([], result);
+    fs.writeFile(`fixtures.json`, JSON.stringify(fixtures, null, 2), function (err) {
+      if (err) { return console.log(err); }
+      console.log("The file was saved!");
+    });
+    fixtures.forEach(fixture => {
+      var fixturesRef = database.ref("/fixtures/" + fixture.match_id);
+      fixturesRef.set(fixture);
+    });
+  });
+}
+
+function updateStanding() {
+  console.log('updateStanding');
+  Promise.all(config.apiFootball.leagues.map(leagueId => {
+    return apifootball.getStanding(leagueId);
+  })).then((result) => {
+    var standings = [].concat.apply([], result);
+    fs.writeFile(`standing.json`, JSON.stringify(standings, null, 2), function (err) {
+      if (err) { return console.log(err); }
+      console.log("The file was saved!");
+    });
+    standings.forEach(standing => {
+      var standingsRef = database.ref("/standing/" + standing.team_name);
+      standingsRef.set(standing);
+    });
+  });
 }

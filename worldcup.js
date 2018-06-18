@@ -511,8 +511,8 @@ function getLiveReport() {
   console.log('getLiveReport');
   let list = [];
   fixturesRef
-    // .orderByChild('match_live')
-    // .equalTo('1')
+    .orderByChild('match_live')
+    .equalTo('1')
     .on("value", function (snapshot) {
       snapshot.forEach(function (snap) {
         var doc = snap.val();
@@ -575,7 +575,7 @@ function getLiveReport() {
         if (indexOfDoc >= 0) {
           // let difference = doc.events.filter(x => !list[indexOfDoc].events.includes(x));
           let difference = _.difference(doc.events, list[indexOfDoc].events);
-          console.log('difference', difference);
+          if (difference) console.log('difference', difference);
           list[indexOfDoc] = doc;
           // let isChanged = (list[indexOfDoc].events.length !== doc.events.length);
           // if (isChanged) {

@@ -355,7 +355,6 @@ module.exports = {
           {
             type: 'button',
             flex: 2,
-            align: 'end',
             action: {
               type: 'postback',
               label: 'Detail',

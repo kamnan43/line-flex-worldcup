@@ -375,7 +375,7 @@ function getMatchContentBubble(title, match) {
     ]
   });
   // datetime
-  let datetime = moment(`${match.match_date} ${match.match_time}`);
+  let datetime = moment(`${match.match_date} ${match.match_time} +5`);
   console.log(datetime);
   detail.contents.push({
     type: 'box',

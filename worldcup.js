@@ -147,8 +147,9 @@ module.exports = {
 
   sendStandingMessage: async (userId, replyToken) => {
     getStanding().then((list) => {
+      console.log('list', list);
       let groupBubbles = config.apiFootball.leagues.map(leagueId => {
-        let group = list.filter(l => +l.league_id === leagueId);
+        let group = list.filter(l => +(l.league_id) === leagueId);
         console.log('group', group);
         return options.getStandingBubble(group);
       });

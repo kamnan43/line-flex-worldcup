@@ -42,7 +42,7 @@ function handleEvent(event) {
       const message = event.message;
       switch (message.type) {
         case 'text':
-          if (['Last Match', 'Next Match', 'Schedule', 'Group'].indexOf(message.text) > -1) {
+          if (['Last Match', 'Next Match', 'Schedule', 'Table', 'Live'].indexOf(message.text) > -1) {
             return handleCommand(message, replyToken, event.source);
           } else if (message.text.startsWith('[bc]')) {
             message.text = message.text.replace('[bc]', '');
@@ -69,7 +69,7 @@ function handleEvent(event) {
         case 'NEXT': return worldcup.sendNextMessage(userId, replyToken);
         case 'SUBSCRIBE': return worldcup.getLiveReport();
         case 'SCHEDULE': return worldcup.sendScheduleMessage(userId, replyToken);
-        case 'GROUP': return worldcup.sendStandingMessage(userId, replyToken);
+        case 'TABLE': return worldcup.sendStandingMessage(userId, replyToken);
       }
     default:
       throw new Error(`Unknown event: ${JSON.stringify(event)}`);
@@ -84,8 +84,10 @@ function handleCommand(message, replyToken, source) {
       return worldcup.sendNextMessage(source.userId, replyToken);
     case 'Schedule':
       return worldcup.sendScheduleMessage(source.userId, replyToken);
-    case 'Group':
+    case 'Table':
       return worldcup.sendStandingMessage(source.userId, replyToken);
+    case 'Live':
+      return worldcup.sendLiveMessage(source.userId, replyToken);
     default:
       return;
   }

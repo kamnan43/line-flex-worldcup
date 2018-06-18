@@ -149,6 +149,7 @@ module.exports = {
     getStanding().then((list) => {
       let groupBubbles = config.apiFootball.leagues.map(leagueId => {
         let group = list.filter(l => +(l.league_id) === leagueId);
+        group = group.sort((a, b)=>{ return a.overall_league_position - b.overall_league_position});
         return options.getStandingBubble(group);
       });
       let messages = [
@@ -584,7 +585,7 @@ function getLiveReport() {
           });
           events = events.concat(awaySubstitutions);
         }
-        doc.events = events.sort((a, b) => { return a.time > b.time });
+        doc.events = events.sort((a, b) => { return a.time - b.time });
         // console.log('live=====>', doc.events);
 
         // find in list

@@ -324,9 +324,9 @@ module.exports = {
             type: 'button',
             action: {
               type: 'postback',
-              label: 'Group',
-              data: 'GROUP',
-              displayText: 'Group'
+              label: 'Table',
+              data: 'TABLE',
+              displayText: 'Table'
             },
             style: 'primary'
           }

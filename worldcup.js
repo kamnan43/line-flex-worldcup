@@ -68,22 +68,22 @@ module.exports = {
 
   sendLiveMessage: async (userId, replyToken) => {
     let liveMatch = await getLiveMatch();
-    sendMatchMessage(liveMatch);
+    sendMatchMessage(liveMatch, replyToken);
   },
 
   sendInfoMessage: async (userId, replyToken, matchId) => {
     let match = await getMatch(matchId);
-    sendMatchMessage(match);
+    sendMatchMessage(match, replyToken);
   },
 
   sendLastMessage: async (userId, replyToken) => {
     let lastMatch = await getLastMatch();
-    sendMatchMessage(lastMatch);
+    sendMatchMessage(lastMatch, replyToken);
   },
 
   sendNextMessage: async (userId, replyToken) => {
     let nextMatch = await getNextMatch();
-    sendMatchMessage(nextMatch);
+    sendMatchMessage(nextMatch, replyToken);
   },
 
   sendStandingMessage: async (userId, replyToken) => {
@@ -118,7 +118,7 @@ module.exports = {
   }
 }
 
-async function sendMatchMessage(match) {
+async function sendMatchMessage(match, replyToken) {
   let bubble = [];
   let messages = [];
   if (match.length > 0) {

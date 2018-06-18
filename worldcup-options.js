@@ -338,7 +338,7 @@ module.exports = {
               {
                 type: 'text',
                 size: 'sm',
-                text: `${matchDateTime.format('YYYY-MM-DD hh:mm')}`,
+                text: `${matchDateTime.format('YYYY-MM-DD HH:mm')}`,
                 align: 'start'
               },
               {
@@ -617,7 +617,7 @@ module.exports = {
         },
         {
           type: 'text',
-          text: `${matchDateTime.format('YYYY-MM-DD hh:mm')}`,
+          text: `${matchDateTime.format('YYYY-MM-DD HH:mm')}`,
           wrap: true,
           size: 'sm',
           color: '#666666',

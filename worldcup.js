@@ -289,10 +289,6 @@ function getMatchContentBubble(title, match) {
             flex: 4
           },
           {
-            type: 'spacer',
-            size: 'md'
-          },
-          {
             type: 'icon',
             url: `${config.BASE_URL}/static/flag/${scorer.home_scorer ? match.match_hometeam_name : match.match_awayteam_name}.png`,
             size: 'sm',

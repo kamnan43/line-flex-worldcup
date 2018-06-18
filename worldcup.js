@@ -208,7 +208,7 @@ function getMatchContentBubble(title, match) {
       {
         type: 'text',
         text: match.match_hometeam_name,
-        flex: 2,
+        flex: 3,
         align: 'start'
       },
       {
@@ -220,7 +220,7 @@ function getMatchContentBubble(title, match) {
       {
         type: 'text',
         text: match.match_awayteam_name,
-        flex: 2,
+        flex: 3,
         align: 'end'
       },
       {

@@ -42,7 +42,7 @@ function handleEvent(event) {
       const message = event.message;
       switch (message.type) {
         case 'text':
-          if (['Next Match', 'Schedule', 'Standing'].indexOf(message.text) > -1) {
+          if (['Last Match', 'Next Match', 'Schedule', 'Group'].indexOf(message.text) > -1) {
             return handleCommand(message, replyToken, event.source);
           } else if (message.text.startsWith('[bc]')) {
             message.text = message.text.replace('[bc]', '');
@@ -86,11 +86,13 @@ function handleEvent(event) {
 
 function handleCommand(message, replyToken, source) {
   switch (message.text) {
+    case 'Last Match':
+      return worldcup.sendLastMatch(source.userId, replyToken);
     case 'Next Match':
       return worldcup.sendNextMatch(source.userId, replyToken);
     case 'Schedule':
       return worldcup.sendSchedule(source.userId, replyToken);
-    case 'Standing':
+    case 'Group':
       return worldcup.sendStanding(source.userId, replyToken);
     default:
       return;

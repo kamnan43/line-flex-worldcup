@@ -436,7 +436,7 @@ function getMatchContentBubble(title, match) {
     type: 'bubble',
     body: body,
   };
-  if (match.match_status !== 'FT') container.footer = footer;
+  // if (match.match_status !== 'FT') container.footer = footer;
   return container;
 }
 

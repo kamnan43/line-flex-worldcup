@@ -19,7 +19,7 @@ var database = firebase.database();
 var membersRef = database.ref("/members");
 var relationsRef = database.ref("/members");
 var fixturesRef = database.ref("/fixtures");
-var standingsRef = database.ref("/standings");
+var standingsRef = database.ref("/standing");
 
 module.exports = {
   updateFixture: updateFixture,
@@ -375,7 +375,7 @@ function getMatchContentBubble(title, match) {
     ]
   });
   // datetime
-  let datetime = moment(`${match.match_date} ${match.match_time} +5`);
+  let datetime = moment(`${match.match_date} ${match.match_time} +05:00`);
   console.log(datetime);
   detail.contents.push({
     type: 'box',

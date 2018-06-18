@@ -511,8 +511,6 @@ function getLiveReport() {
   console.log('getLiveReport');
   let list = [];
   fixturesRef
-    .orderByChild('match_live')
-    .equalTo('1')
     .on("value", function (snapshot) {
       snapshot.forEach(function (snap) {
         var doc = snap.val();

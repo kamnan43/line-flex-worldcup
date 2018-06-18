@@ -528,6 +528,7 @@ function getLiveReport() {
               away_scorer: s.away_scorer,
             };
           });
+          console.log('goalscorer', goalscorer);
           events.concat(goalscorer);
         }
 

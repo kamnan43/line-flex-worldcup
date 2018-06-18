@@ -77,7 +77,7 @@ function handleEvent(event) {
         case 'NEXT': return worldcup.sendNextMessage(userId, replyToken);
         case 'SUBSCRIBE': return worldcup.getLiveReport();
         case 'SCHEDULE': return worldcup.sendMenuMessage(userId, replyToken);
-        case 'GROUP': return worldcup.sendMenuMessage(userId, replyToken);
+        case 'GROUP': return worldcup.sendStandingMessage(userId, replyToken);
       }
     default:
       throw new Error(`Unknown event: ${JSON.stringify(event)}`);
@@ -87,13 +87,13 @@ function handleEvent(event) {
 function handleCommand(message, replyToken, source) {
   switch (message.text) {
     case 'Last Match':
-      return worldcup.sendLastMatch(source.userId, replyToken);
+      return worldcup.sendLastMessage(source.userId, replyToken);
     case 'Next Match':
-      return worldcup.sendNextMatch(source.userId, replyToken);
+      return worldcup.sendNextMessage(source.userId, replyToken);
     case 'Schedule':
       return worldcup.sendSchedule(source.userId, replyToken);
     case 'Group':
-      return worldcup.sendStanding(source.userId, replyToken);
+      return worldcup.sendStandingMessage(source.userId, replyToken);
     default:
       return;
   }

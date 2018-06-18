@@ -120,6 +120,174 @@ module.exports = {
       }
     }
   },
+  getStandingBubble: (teams) => {
+    let bubble = {
+      type: 'bubble',
+      body: {
+        type: 'box',
+        layout: 'vertical',
+        contents: [
+          {
+            type: 'text',
+            text: team[0].league_name,
+            weight: 'bold',
+            size: 'xl',
+            margin: 'md'
+          },
+          {
+            type: 'separator',
+            margin: 'xl'
+          },
+          {
+            type: 'box',
+            layout: 'vertical',
+            margin: 'md',
+            spacing: 'sm',
+            contents: [
+              {
+                type: 'box',
+                layout: 'horizontal',
+                contents: [
+                  {
+                    type: 'text',
+                    text: 'Team',
+                    size: 'sm',
+                    color: '#555555',
+                    weight: 'bold',
+                    flex: 3
+                  },
+                  {
+                    type: 'text',
+                    text: 'P',
+                    size: 'sm',
+                    color: '#111111',
+                    align: 'end',
+                    weight: 'bold'
+                  },
+                  {
+                    type: 'text',
+                    text: 'W',
+                    size: 'sm',
+                    color: '#111111',
+                    align: 'end',
+                    weight: 'bold'
+                  },
+                  {
+                    type: 'text',
+                    text: 'D',
+                    size: 'sm',
+                    color: '#111111',
+                    align: 'end',
+                    weight: 'bold'
+                  },
+                  {
+                    type: 'text',
+                    text: 'L',
+                    size: 'sm',
+                    color: '#111111',
+                    align: 'end',
+                    weight: 'bold'
+                  },
+                  {
+                    type: 'text',
+                    text: 'Pt',
+                    size: 'sm',
+                    color: '#111111',
+                    align: 'end',
+                    weight: 'bold'
+                  }
+                ]
+              },
+              {
+                type: 'separator',
+                margin: 'md'
+              },
+            ]
+          }
+        ]
+      },
+      footer: {
+        type: 'box',
+        layout: 'vertical',
+        contents: [
+          {
+            type: 'button',
+            action: {
+              type: 'postback',
+              label: 'Group Match',
+              data: 'match',
+              displayText: 'match'
+            },
+            style: 'primary'
+          }
+        ]
+      }
+    };
+    teams.forEach(team => {
+      let row = {
+        type: 'box',
+        layout: 'horizontal',
+        contents: [
+          {
+            type: 'box',
+            layout: 'baseline',
+            contents: [
+              {
+                type: 'icon',
+                url: `${config.BASE_URL}/static/flag/${team.team_name.replace(' ', '')}.png`,
+                size: 'sm'
+              },
+              {
+                type: 'text',
+                text: team.team_name,
+                size: 'sm',
+                color: '#555555'
+              }
+            ],
+            flex: 3
+          },
+          {
+            type: 'text',
+            text: team.overall_league_payed,
+            size: 'sm',
+            color: '#111111',
+            align: 'end'
+          },
+          {
+            type: 'text',
+            text: team.overall_league_W,
+            size: 'sm',
+            color: '#00ff00',
+            align: 'end'
+          },
+          {
+            type: 'text',
+            text: team.overall_league_D,
+            size: 'sm',
+            color: '#aaaaaa',
+            align: 'end'
+          },
+          {
+            type: 'text',
+            text: team.overall_league_L,
+            size: 'sm',
+            color: '#ff0000',
+            align: 'end'
+          },
+          {
+            type: 'text',
+            text: team.overall_league_PTS,
+            size: 'sm',
+            color: '#111111',
+            align: 'end'
+          }
+        ]
+      };
+      bubble.body.contents[2].contents.push(row);
+    });
+    
+    return bubble;
+  },
 }
 
 function createPostBackOption(label, key, data) {

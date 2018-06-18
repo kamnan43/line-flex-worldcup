@@ -141,21 +141,23 @@ module.exports = {
       lineHelper.createFlexCarouselMessage('Match Info', bubble),
     ];
     line.replyMessage(replyToken, messages)
-      .then((msg) => {
-        console.log('line:', msg)
-      })
-      .catch((err) => {
-        console.log('line error:', err)
-      });
+      .then((msg) => { console.log('line:', msg) })
+      .catch((err) => { console.log('line error:', err) });
   },
 
   sendStandingMessage: async (userId, replyToken) => {
     getStanding().then((list) => {
-      let groupData = config.apiFootball.leagues.map(leagueId => {
+      let groupBubbles = config.apiFootball.leagues.map(leagueId => {
         let group = list.filter(l => l.league_id === leagueId);
-        return apifootball.getStanding(leagueId);
+        return options.getStandingBubble(group);
       });
-      console.log('groupData', groupData);
+      console.log('groupBubbles', groupBubbles);
+      let messages = [
+        lineHelper.createFlexCarouselMessage('Group Standing', groupBubbles),
+      ];
+      line.replyMessage(replyToken, messages)
+        .then((msg) => { console.log('line:', msg) })
+        .catch((err) => { console.log('line error:', err) });
     });
 
 

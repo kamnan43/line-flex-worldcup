@@ -69,22 +69,22 @@ module.exports = {
 
   sendLiveMessage: async (userId, replyToken) => {
     let liveMatch = await getLiveMatch();
-    this.sendMatchMessage(liveMatch);
+    sendMatchMessage(liveMatch);
   },
 
   sendInfoMessage: async (userId, replyToken, matchId) => {
     let match = await getMatch(matchId);
-    this.sendMatchMessage(match);
+    sendMatchMessage(match);
   },
 
   sendLastMessage: async (userId, replyToken) => {
     let lastMatch = await getLastMatch();
-    this.sendMatchMessage(lastMatch);
+    sendMatchMessage(lastMatch);
   },
 
   sendNextMessage: async (userId, replyToken) => {
     let nextMatch = await getNextMatch();
-    this.sendMatchMessage(nextMatch);
+    sendMatchMessage(nextMatch);
   },
 
   sendStandingMessage: async (userId, replyToken) => {

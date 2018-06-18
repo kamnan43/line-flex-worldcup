@@ -515,14 +515,14 @@ function getLiveReport() {
         var doc = snap.val();
         doc.goalscorer = doc.goalscorer.filter(s => s.time !== '').map(s => {
           type : 'goal',
-          time: +(s.time.replace('\'','')),
+          time: s.time.replace('\'',''),
           home_scorer: s.home_scorer,
           score: s.score,
           away_scorer: s.away_scorer,
         });
         doc.cards = doc.cards.filter(s => s.time !== '').map(s=>{
           type : 'card',
-          time: +(s.time.replace('\'','')),
+          time: s.time.replace('\'',''),
           home_fault: s.home_fault,
           card: s.card,
           away_fault: s.away_fault,
@@ -530,13 +530,13 @@ function getLiveReport() {
         doc.lineup.home.substitutions = doc.lineup.home.substitutions.filter(s => s.lineup_time !== '').map(s=>{
           type: 'subs',
           side: 'home',
-          time: +(s.lineup_time.replace('\'','')),
+          time: (s.lineup_time.replace('\'','')),
           lineup_player: s.lineup_player,
         });
         doc.lineup.away.substitutions = doc.lineup.away.substitutions.filter(s => s.lineup_time !== '').map(s=>{
           type: 'subs',
           side: 'away',
-          time: +(s.lineup_time.replace('\'','')),
+          time: (s.lineup_time.replace('\'','')),
           lineup_player: s.lineup_player,
         });
         let events = [].concat(doc.goalscorer, doc.cards, doc.lineup.home.substitutions, doc.lineup.away.substitutions);

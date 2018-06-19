@@ -656,6 +656,7 @@ module.exports = {
         {
           type: 'button',
           style: 'primary',
+          margin: 'md',
           action: {
             type: 'postback',
             label: 'Head 2 Head',

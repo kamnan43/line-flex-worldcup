@@ -70,6 +70,7 @@ function handleEvent(event) {
         case 'SUBSCRIBE': return worldcup.getLiveReport();
         case 'SCHEDULE': return worldcup.sendScheduleMessage(userId, replyToken);
         case 'TABLE': return worldcup.sendStandingMessage(userId, replyToken);
+        case 'H2H': return worldcup.sendH2HMessage(userId, replyToken, data);
       }
     default:
       throw new Error(`Unknown event: ${JSON.stringify(event)}`);

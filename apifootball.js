@@ -59,3 +59,29 @@ function getStanding(leagueId) {
       });
   });
 }
+
+function getH2H(firstTeam, secondTeam) {
+  return new Promise((resolve, reject) => {
+    var data = querystring.stringify({
+      APIkey: config.apiFootball.apiKey,
+      action: 'get_H2H',
+      firstTeam: firstTeam,
+      secondTeam: secondTeam,
+    });
+    rp({
+      method: 'GET',
+      uri: `${config.apiFootball.url}?${data}`,
+    })
+      .then(function (body) {
+        let data = JSON.parse(body);
+        // fs.writeFile(`standing_${leagueId}.json`, JSON.stringify(data, null, 2), function (err) {
+        //   if (err) { return console.log(`getStanding Error write file league : ${leagueId}`, err); }
+        // });
+        resolve(data);
+      })
+      .catch(function (err) {
+        console.log(`getH2H Error get data league : ${leagueId}`);
+        reject(err);
+      });
+  });
+}

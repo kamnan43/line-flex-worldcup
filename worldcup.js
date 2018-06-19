@@ -104,6 +104,23 @@ module.exports = {
     });
   },
 
+  sendH2HMessage: async (userId, replyToken, matchId) => {
+    getMatch(matchId)
+      .then((match) => {
+        return config.apiFootball.getH2H(match.match_hometeam_name, match.match_awayteam_name);
+      })
+      .then((result) => {
+        let h2hBubbles = options.getH2HContentBubble(result);
+        let messages = [
+          lineHelper.createFlexCarouselMessage('Head 2 Head', h2hBubbles),
+        ];
+        saveFile(replyToken, messages[0].contents);
+        line.replyMessage(replyToken, messages)
+          .then((msg) => { console.log('line:', msg) })
+          .catch((err) => { console.log('line error:', err) });
+      });
+  },
+
   sendScheduleMessage: async (userId, replyToken) => {
     getAllMatch().then((list) => {
       let groupBubbles = config.apiFootball.leagues.map(leagueId => {
@@ -355,7 +372,7 @@ function updateStanding() {
   });
 }
 
-function saveFile (id, data) {
+function saveFile(id, data) {
   fs.writeFile(`downloaded/${id}.json`, JSON.stringify(data, null, 2), function (err) {
     if (err) { return console.log(err); }
     console.log("The file was saved!");

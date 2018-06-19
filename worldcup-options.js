@@ -586,81 +586,74 @@ module.exports = {
         });
       });
     }
-    detail.contents.push({
-      "type": "separator",
-      "margin": "xxl"
-    });
-    // group
-    detail.contents.push({
-      type: 'box',
-      layout: 'baseline',
-      margin: 'md',
-      contents: [
-        {
-          type: 'text',
-          text: 'Group',
-          color: '#aaaaaa',
-          size: 'sm',
-          flex: 2
-        },
-        {
-          type: 'text',
-          text: `${match.league_name.replace(' Group ', '')}`,
-          wrap: true,
-          color: '#666666',
-          size: 'sm',
-          flex: 4
-        }
-      ]
-    });
-    let matchDateTime = moment(`${match.match_date} ${match.match_time}`).add(5, 'hours');
-    detail.contents.push({
-      type: 'box',
-      layout: 'baseline',
-      spacing: 'sm',
-      contents: [
-        {
-          type: 'text',
-          text: 'Date',
-          color: '#aaaaaa',
-          size: 'sm',
-          flex: 2
-        },
-        {
-          type: 'text',
-          text: `${matchDateTime.format('YYYY-MM-DD HH:mm')}`,
-          wrap: true,
-          size: 'sm',
-          color: '#666666',
-          flex: 4
-        }
-      ]
-    });
 
     contents.push(detail);
 
-    let header = {
-      type: 'box',
-      layout: 'vertical',
-      contents: [
-        {
-          type: 'text',
-          text: title,
-          size: 'xl',
-          weight: 'bold'
-        }
-      ]
-    };
     let body = {
       type: 'box',
       layout: 'vertical',
       spacing: 'md',
       contents: contents,
     };
+    let matchDateTime = moment(`${match.match_date} ${match.match_time}`).add(5, 'hours');
     let footer = {
       type: 'box',
       layout: 'vertical',
       contents: [
+        {
+          "type": "separator",
+          "margin": "xxl"
+        },
+        {
+          type: 'box',
+          layout: 'baseline',
+          margin: 'md',
+          contents: [
+            {
+              type: 'text',
+              text: 'Group',
+              color: '#aaaaaa',
+              size: 'sm',
+              flex: 2
+            },
+            {
+              type: 'text',
+              text: `${match.league_name.replace(' Group ', '')}`,
+              wrap: true,
+              color: '#666666',
+              size: 'sm',
+              flex: 4
+            }
+          ]
+        },
+        {
+          type: 'box',
+          layout: 'baseline',
+          spacing: 'sm',
+          contents: [
+            {
+              type: 'text',
+              text: 'Date',
+              color: '#aaaaaa',
+              size: 'sm',
+              flex: 2
+            },
+            {
+              type: 'text',
+              text: `${matchDateTime.format('YYYY-MM-DD HH:mm')}`,
+              wrap: true,
+              size: 'sm',
+              color: '#666666',
+              flex: 4
+            }
+          ]
+        },
+        {
+          type: 'postback',
+          label: 'Head 2 Head',
+          displayText: `${match.match_hometeam_name} VS ${match.match_awayteam_name}`,
+          data: `H2H_${match.match_id}`,
+        },
         getSourceButton(replyToken)
       ]
     };
@@ -668,6 +661,242 @@ module.exports = {
       type: 'bubble',
       body: body,
       footer: footer,
+    };
+    // if (match.match_status !== 'FT') container.footer = footer;
+    return container;
+  },
+  getH2HContentBubble: (title, info, replyToken) => {
+    let contents = [];
+    // title
+    contents.push({
+      type: 'text',
+      text: title,
+      wrap: true,
+      weight: 'bold',
+      gravity: 'center',
+      size: 'lg'
+    });
+    // h2h
+    if (info.firstTeam_VS_secondTeam) {
+      info.firstTeam_VS_secondTeam.forEach(match => {
+        contents.push({
+          type: 'box',
+          layout: 'baseline',
+          spacing: 'sm',
+          contents: [
+            {
+              type: 'icon',
+              url: `${config.BASE_URL}/static/flag/${match.match_hometeam_name.replace(' ', '')}.png`,
+              size: 'sm',
+            },
+            {
+              type: 'text',
+              text: match.match_hometeam_name,
+              flex: 3,
+              align: 'start'
+            },
+            {
+              type: 'text',
+              text: `${match.match_hometeam_score} : ${match.match_awayteam_score}`,
+              flex: 1,
+              align: 'center'
+            },
+            {
+              type: 'text',
+              text: match.match_awayteam_name,
+              flex: 3,
+              align: 'end'
+            },
+            {
+              type: 'icon',
+              url: `${config.BASE_URL}/static/flag/${match.match_awayteam_name.replace(' ', '')}.png`,
+              size: 'sm',
+            }
+          ]
+        });
+      });
+    }
+    // detail
+    // let detail = {
+    //   type: 'box',
+    //   layout: 'vertical',
+    //   margin: 'lg',
+    //   spacing: 'sm',
+    //   contents: []
+    // };
+    // // scorer
+    // if (match.goalscorer) {
+    //   detail.contents.push({
+    //     type: 'box',
+    //     layout: 'baseline',
+    //     spacing: 'sm',
+    //     contents: [
+    //       {
+    //         type: 'text',
+    //         text: 'Scorer',
+    //         color: '#aaaaaa',
+    //         size: 'sm',
+    //         weight: 'bold',
+    //       }
+    //     ]
+    //   });
+    //   match.goalscorer.filter(s => s.time !== '').forEach(scorer => {
+    //     detail.contents.push({
+    //       type: 'box',
+    //       layout: 'baseline',
+    //       spacing: 'sm',
+    //       contents: [
+    //         {
+    //           type: 'text',
+    //           text: scorer.time,
+    //           color: '#aaaaaa',
+    //           size: 'sm',
+    //           flex: 1
+    //         },
+    //         {
+    //           type: 'text',
+    //           text: `${scorer.score}`,
+    //           wrap: true,
+    //           color: '#666666',
+    //           size: 'sm',
+    //           flex: 1
+    //         },
+    //         {
+    //           type: 'icon',
+    //           url: `${config.BASE_URL}/static/football.png`,
+    //           size: 'sm',
+    //         },
+    //         {
+    //           type: 'text',
+    //           text: `${scorer.home_scorer + scorer.away_scorer}`,
+    //           wrap: true,
+    //           color: '#666666',
+    //           size: 'sm',
+    //           flex: 4
+    //         },
+    //         {
+    //           type: 'icon',
+    //           url: `${config.BASE_URL}/static/flag/${(scorer.home_scorer ? match.match_hometeam_name : match.match_awayteam_name).replace(' ', '')}.png`,
+    //           size: 'sm',
+    //         }
+    //       ]
+    //     });
+    //   });
+    // }
+    // // card
+    // if (match.cards) {
+    //   detail.contents.push({
+    //     type: 'box',
+    //     layout: 'baseline',
+    //     spacing: 'sm',
+    //     contents: [
+    //       {
+    //         type: 'text',
+    //         text: 'Card',
+    //         color: '#aaaaaa',
+    //         size: 'sm',
+    //         weight: 'bold',
+    //       }
+    //     ]
+    //   });
+    //   match.cards.filter(c => c.time !== '').forEach(card => {
+    //     detail.contents.push({
+    //       type: 'box',
+    //       layout: 'baseline',
+    //       spacing: 'sm',
+    //       contents: [
+    //         {
+    //           type: 'text',
+    //           text: card.time || '-',
+    //           color: '#aaaaaa',
+    //           size: 'sm',
+    //           flex: 1
+    //         },
+    //         {
+    //           type: 'icon',
+    //           url: `${config.BASE_URL}/static/${card.card}.png`,
+    //           size: 'sm',
+    //         },
+    //         {
+    //           type: 'text',
+    //           text: `${card.home_fault + card.away_fault}`,
+    //           wrap: true,
+    //           color: '#666666',
+    //           size: 'sm',
+    //           flex: 4
+    //         }
+    //       ]
+    //     });
+    //   });
+    // }
+
+    // contents.push(detail);
+
+    let body = {
+      type: 'box',
+      layout: 'vertical',
+      spacing: 'md',
+      contents: contents,
+    };
+    // let matchDateTime = moment(`${match.match_date} ${match.match_time}`).add(5, 'hours');
+    // let footer = {
+    //   type: 'box',
+    //   layout: 'vertical',
+    //   contents: [
+    //     {
+    //       "type": "separator",
+    //       "margin": "xxl"
+    //     },
+    //     {
+    //       type: 'box',
+    //       layout: 'baseline',
+    //       margin: 'md',
+    //       contents: [
+    //         {
+    //           type: 'text',
+    //           text: 'Group',
+    //           color: '#aaaaaa',
+    //           size: 'sm',
+    //           flex: 2
+    //         },
+    //         {
+    //           type: 'text',
+    //           text: `${match.league_name.replace(' Group ', '')}`,
+    //           wrap: true,
+    //           color: '#666666',
+    //           size: 'sm',
+    //           flex: 4
+    //         }
+    //       ]
+    //     },
+    //     {
+    //       type: 'box',
+    //       layout: 'baseline',
+    //       spacing: 'sm',
+    //       contents: [
+    //         {
+    //           type: 'text',
+    //           text: 'Date',
+    //           color: '#aaaaaa',
+    //           size: 'sm',
+    //           flex: 2
+    //         },
+    //         {
+    //           type: 'text',
+    //           text: `${matchDateTime.format('YYYY-MM-DD HH:mm')}`,
+    //           wrap: true,
+    //           size: 'sm',
+    //           color: '#666666',
+    //           flex: 4
+    //         }
+    //       ]
+    //     },
+    //     getSourceButton(replyToken)
+    //   ]
+    // };
+    let container = {
+      type: 'bubble',
+      body: body,
     };
     // if (match.match_status !== 'FT') container.footer = footer;
     return container;

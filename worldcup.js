@@ -61,6 +61,7 @@ module.exports = {
     let messages = [
       lineHelper.createFlexMessage('Menu', bubble),
     ];
+    saveFile(replyToken, messages[0].contents);
     line.replyMessage(replyToken, messages)
       .then((msg) => { console.log('line:', msg) })
       .catch((err) => { console.log('line error:', err) });
@@ -96,6 +97,7 @@ module.exports = {
       let messages = [
         lineHelper.createFlexCarouselMessage('Group Standing', groupBubbles),
       ];
+      saveFile(replyToken, messages[0].contents);
       line.replyMessage(replyToken, messages)
         .then((msg) => { console.log('line:', msg) })
         .catch((err) => { console.log('line error:', err) });
@@ -108,15 +110,10 @@ module.exports = {
         let group = list.filter(l => +(l.league_id) === leagueId);
         return options.getScheduleBubble(group);
       });
-
-      fs.writeFile(`schedule.json`, JSON.stringify(groupBubbles, null, 2), function (err) {
-        if (err) { return console.log(err); }
-        console.log("The schedule was saved!");
-      });
-
       let messages = [
         lineHelper.createFlexCarouselMessage('Schedule', groupBubbles),
       ];
+      saveFile(replyToken, messages[0].contents);
       line.replyMessage(replyToken, messages)
         .then((msg) => { console.log('line:', msg) })
         .catch((err) => { console.log('line error:', err) });
@@ -135,6 +132,7 @@ async function sendMatchMessage(match, replyToken) {
   } else {
     messages.push(lineHelper.createTextMessage('No Match'));
   }
+  saveFile(replyToken, messages[0].contents);
   line.replyMessage(replyToken, messages)
     .then((msg) => { console.log('line:', msg) })
     .catch((err) => { console.log('line error:', err) });
@@ -335,10 +333,7 @@ function updateFixture() {
     return apifootball.getEvents(leagueId);
   })).then((result) => {
     var fixtures = [].concat.apply([], result);
-    fs.writeFile(`fixtures.json`, JSON.stringify(fixtures, null, 2), function (err) {
-      if (err) { return console.log(err); }
-      console.log("The file was saved!");
-    });
+    saveFile('fixtures', fixtures);
     fixtures.forEach(fixture => {
       var fixturesRef = database.ref("/fixtures/" + fixture.match_id);
       fixturesRef.set(fixture);
@@ -352,13 +347,17 @@ function updateStanding() {
     return apifootball.getStanding(leagueId);
   })).then((result) => {
     var standings = [].concat.apply([], result);
-    fs.writeFile(`standing.json`, JSON.stringify(standings, null, 2), function (err) {
-      if (err) { return console.log(err); }
-      console.log("The file was saved!");
-    });
+    saveFile('standing', standings);
     standings.forEach(standing => {
       var standingsRef = database.ref("/standing/" + standing.team_name);
       standingsRef.set(standing);
     });
+  });
+}
+
+function saveFile (id, data) {
+  fs.writeFile(`/downloaded/${id}.json`, JSON.stringify(data, null, 2), function (err) {
+    if (err) { return console.log(err); }
+    console.log("The file was saved!");
   });
 }

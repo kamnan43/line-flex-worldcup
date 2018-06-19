@@ -57,6 +57,7 @@ function handleEvent(event) {
 
     case 'unfollow':
     // return worldcup.disableMember(userId);
+    break;
 
     case 'postback':
       let postbackData = event.postback.data.split("_", 2);

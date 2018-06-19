@@ -690,7 +690,7 @@ function getSourceButton(replyToken) {
     action: {
       type: 'uri',
       label: 'View Source [dev]',
-      url: `https://sitthi.me:3807/downloaded/${replyToken}.json`
+      uri: `https://sitthi.me:3807/downloaded/${replyToken}.json`
     },
     style: 'secondary'
   }

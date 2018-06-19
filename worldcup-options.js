@@ -651,12 +651,12 @@ module.exports = {
         },
         {
           "type": "separator",
-          "margin": "xxl"
+          "margin": "md"
         },
         {
           type: 'button',
           style: 'primary',
-          margin: 'md',
+          margin: 'sm',
           action: {
             type: 'postback',
             label: 'Head 2 Head',
@@ -670,7 +670,7 @@ module.exports = {
       footer.contents.push({
         type: 'button',
         style: 'primary',
-        margin: 'md',
+        margin: 'sm',
         action: {
           type: 'postback',
           label: 'Match Statistics',
@@ -968,6 +968,7 @@ module.exports = {
 function getSourceButton(replyToken) {
   return {
     type: 'button',
+    margin: 'md',
     action: {
       type: 'uri',
       label: 'View Source [dev]',

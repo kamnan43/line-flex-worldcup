@@ -108,7 +108,7 @@ module.exports = {
         type: 'box',
         layout: 'vertical',
         contents: [
-          getSourceButton(replyToken)
+          this.getSourceButton(replyToken)
         ]
       }
     }
@@ -241,7 +241,7 @@ module.exports = {
             },
             style: 'primary'
           },
-          getSourceButton(replyToken)
+          this.getSourceButton(replyToken)
         ]
       }
     };
@@ -341,7 +341,7 @@ module.exports = {
             },
             style: 'primary'
           },
-          getSourceButton(replyToken)
+          this.getSourceButton(replyToken)
         ]
       }
     };
@@ -672,7 +672,7 @@ module.exports = {
       type: 'box',
       layout: 'vertical',
       contents: [
-        getSourceButton(replyToken)
+        this.getSourceButton(replyToken)
       ]
     };
     let container = {

@@ -457,7 +457,7 @@ module.exports = {
         {
           type: 'text',
           text: `${match.match_hometeam_score} : ${match.match_awayteam_score}`,
-          flex: 1,
+          flex: 2,
           align: 'center'
         },
         {
@@ -663,33 +663,53 @@ module.exports = {
             displayText: `${match.match_hometeam_name} VS ${match.match_awayteam_name}`,
             data: `H2H_${match.match_id}`,
           },
-        },
-        getSourceButton(replyToken)
+        }
       ]
     };
+    if (match.statistics && match.statistics.length > 0) {
+      footer.contents.push({
+        type: 'button',
+        style: 'primary',
+        margin: 'md',
+        action: {
+          type: 'postback',
+          label: 'Match Statistics',
+          displayText: `${match.match_hometeam_name} VS ${match.match_awayteam_name}`,
+          data: `STAT_${match.match_id}`,
+        },
+      });
+    }
+    footer.contents.push(getSourceButton(replyToken));
     let container = {
       type: 'bubble',
       body: body,
       footer: footer,
     };
-    // if (match.match_status !== 'FT') container.footer = footer;
     return container;
   },
-  getH2HContentBubble: (title, info, replyToken) => {
-    let contents = [];
+  getH2HContentBubble: (title, result, replyToken) => {
+    let info = result.data;
+    let teamA = result.firstTeam;
+    let teamB = result.secondTeam;
+    console.log('team', teamA, teamB);
     // title
-    contents.push({
+    let titleBlock = {
       type: 'text',
       text: title,
       wrap: true,
       weight: 'bold',
       gravity: 'center',
       size: 'lg'
-    });
+    };
     // h2h
-    if (info.firstTeam_VS_secondTeam) {
+    let h2hBlock = {
+      type: 'text',
+      text: 'Head to head match not available!',
+    };
+    if (info.firstTeam_VS_secondTeam && info.firstTeam_VS_secondTeam.length > 0) {
+      let h2hContent = [];
       info.firstTeam_VS_secondTeam.forEach(match => {
-        contents.push({
+        h2hContent.push({
           type: 'box',
           layout: 'baseline',
           spacing: 'sm',
@@ -708,7 +728,7 @@ module.exports = {
             {
               type: 'text',
               text: `${match.match_hometeam_score} : ${match.match_awayteam_score}`,
-              flex: 1,
+              flex: 2,
               align: 'center'
             },
             {
@@ -725,204 +745,226 @@ module.exports = {
           ]
         });
       });
+      h2hBlock = {
+        type: 'box',
+        layout: 'vertical',
+        contents: h2hContent,
+      };
     }
-    // detail
-    // let detail = {
-    //   type: 'box',
-    //   layout: 'vertical',
-    //   margin: 'lg',
-    //   spacing: 'sm',
-    //   contents: []
-    // };
-    // // scorer
-    // if (match.goalscorer) {
-    //   detail.contents.push({
-    //     type: 'box',
-    //     layout: 'baseline',
-    //     spacing: 'sm',
-    //     contents: [
-    //       {
-    //         type: 'text',
-    //         text: 'Scorer',
-    //         color: '#aaaaaa',
-    //         size: 'sm',
-    //         weight: 'bold',
-    //       }
-    //     ]
-    //   });
-    //   match.goalscorer.filter(s => s.time !== '').forEach(scorer => {
-    //     detail.contents.push({
-    //       type: 'box',
-    //       layout: 'baseline',
-    //       spacing: 'sm',
-    //       contents: [
-    //         {
-    //           type: 'text',
-    //           text: scorer.time,
-    //           color: '#aaaaaa',
-    //           size: 'sm',
-    //           flex: 1
-    //         },
-    //         {
-    //           type: 'text',
-    //           text: `${scorer.score}`,
-    //           wrap: true,
-    //           color: '#666666',
-    //           size: 'sm',
-    //           flex: 1
-    //         },
-    //         {
-    //           type: 'icon',
-    //           url: `${config.BASE_URL}/static/football.png`,
-    //           size: 'sm',
-    //         },
-    //         {
-    //           type: 'text',
-    //           text: `${scorer.home_scorer + scorer.away_scorer}`,
-    //           wrap: true,
-    //           color: '#666666',
-    //           size: 'sm',
-    //           flex: 4
-    //         },
-    //         {
-    //           type: 'icon',
-    //           url: `${config.BASE_URL}/static/flag/${(scorer.home_scorer ? match.match_hometeam_name : match.match_awayteam_name).replace(' ', '')}.png`,
-    //           size: 'sm',
-    //         }
-    //       ]
-    //     });
-    //   });
-    // }
-    // // card
-    // if (match.cards) {
-    //   detail.contents.push({
-    //     type: 'box',
-    //     layout: 'baseline',
-    //     spacing: 'sm',
-    //     contents: [
-    //       {
-    //         type: 'text',
-    //         text: 'Card',
-    //         color: '#aaaaaa',
-    //         size: 'sm',
-    //         weight: 'bold',
-    //       }
-    //     ]
-    //   });
-    //   match.cards.filter(c => c.time !== '').forEach(card => {
-    //     detail.contents.push({
-    //       type: 'box',
-    //       layout: 'baseline',
-    //       spacing: 'sm',
-    //       contents: [
-    //         {
-    //           type: 'text',
-    //           text: card.time || '-',
-    //           color: '#aaaaaa',
-    //           size: 'sm',
-    //           flex: 1
-    //         },
-    //         {
-    //           type: 'icon',
-    //           url: `${config.BASE_URL}/static/${card.card}.png`,
-    //           size: 'sm',
-    //         },
-    //         {
-    //           type: 'text',
-    //           text: `${card.home_fault + card.away_fault}`,
-    //           wrap: true,
-    //           color: '#666666',
-    //           size: 'sm',
-    //           flex: 4
-    //         }
-    //       ]
-    //     });
-    //   });
-    // }
+    // last match
+    let lastMatchBlock = {
+      type: 'text',
+      text: 'Recent match not available!',
+    };
+    if ((info.firstTeam_lastResults && info.firstTeam_lastResults.length > 0) ||
+      (info.secondTeam_lastResults && info.secondTeam_lastResults.length > 0)) {
+      let recentMatchA = [{
+        type: 'text',
+        text: teamA,
+        weight: 'bold',
+        align: 'center',
+      }];
+      let recentMatchB = [{
+        type: 'text',
+        text: teamB,
+        weight: 'bold',
+        align: 'center',
+      }];
+      if (info.firstTeam_lastResults && info.firstTeam_lastResults.length > 0) {
+        info.firstTeam_lastResults.forEach(match => {
+          recentMatchA.push(getRecentMatch(teamA, match));
+        });
+      }
+      if (info.secondTeam_lastResults && info.secondTeam_lastResults.length > 0) {
+        info.secondTeam_lastResults.forEach(match => {
+          recentMatchB.push(getRecentMatch(teamB, match));
+        });
+      }
+      let recentBoxA = {
+        type: 'box',
+        layout: 'vertical',
+        contents: recentMatchA,
+      };
+      let recentBoxB = {
+        type: 'box',
+        layout: 'vertical',
+        margin: 'md',
+        contents: recentMatchB,
+      };
 
-    // contents.push(detail);
+      lastMatchBlock = {
+        type: 'box',
+        layout: 'vertical',
+        contents: [
+          {
+            type: 'text',
+            text: 'Recent Match',
+            weight: 'bold',
+            align: 'center',
+          },
+          {
+            type: 'box',
+            layout: 'horizontal',
+            contents: [recentBoxA, { type: 'separator', margin: 'md' }, recentBoxB],
+          }
+        ],
+      };
+    }
 
     let body = {
       type: 'box',
       layout: 'vertical',
       spacing: 'md',
-      contents: contents,
+      contents: [
+        titleBlock,
+        h2hBlock,
+        {
+          type: 'separator',
+        },
+        lastMatchBlock,
+      ],
     };
-    // let matchDateTime = moment(`${match.match_date} ${match.match_time}`).add(5, 'hours');
-    // let footer = {
-    //   type: 'box',
-    //   layout: 'vertical',
-    //   contents: [
-    //     {
-    //       "type": "separator",
-    //       "margin": "xxl"
-    //     },
-    //     {
-    //       type: 'box',
-    //       layout: 'baseline',
-    //       margin: 'md',
-    //       contents: [
-    //         {
-    //           type: 'text',
-    //           text: 'Group',
-    //           color: '#aaaaaa',
-    //           size: 'sm',
-    //           flex: 2
-    //         },
-    //         {
-    //           type: 'text',
-    //           text: `${match.league_name.replace(' Group ', '')}`,
-    //           wrap: true,
-    //           color: '#666666',
-    //           size: 'sm',
-    //           flex: 4
-    //         }
-    //       ]
-    //     },
-    //     {
-    //       type: 'box',
-    //       layout: 'baseline',
-    //       spacing: 'sm',
-    //       contents: [
-    //         {
-    //           type: 'text',
-    //           text: 'Date',
-    //           color: '#aaaaaa',
-    //           size: 'sm',
-    //           flex: 2
-    //         },
-    //         {
-    //           type: 'text',
-    //           text: `${matchDateTime.format('YYYY-MM-DD HH:mm')}`,
-    //           wrap: true,
-    //           size: 'sm',
-    //           color: '#666666',
-    //           flex: 4
-    //         }
-    //       ]
-    //     },
-    //     getSourceButton(replyToken)
-    //   ]
-    // };
+
+    let footer = {
+      type: 'box',
+      layout: 'vertical',
+      contents: [
+        {
+          "type": "separator",
+          "margin": "xxl"
+        },
+        getSourceButton(replyToken)
+      ]
+    };
     let container = {
       type: 'bubble',
       body: body,
+      footer: footer,
     };
-    // if (match.match_status !== 'FT') container.footer = footer;
+    return container;
+  },
+  getStatContentBubble: (title, match, replyToken) => {
+    let stats = match.statistics;
+    // title
+    let titleBlock = {
+      type: 'text',
+      text: 'Statistics',
+      wrap: true,
+      weight: 'bold',
+      gravity: 'center',
+      size: 'lg'
+    };
+
+    let teamBlock = {
+      type: 'box',
+      layout: 'baseline',
+      spacing: 'sm',
+      contents: [
+        {
+          type: 'icon',
+          url: `${config.BASE_URL}/static/flag/${match.match_hometeam_name.replace(' ', '')}.png`,
+          size: 'sm',
+        },
+        {
+          type: 'text',
+          text: match.match_hometeam_name,
+          flex: 3,
+          align: 'start'
+        },
+        {
+          type: 'text',
+          text: `${match.match_hometeam_score} : ${match.match_awayteam_score}`,
+          flex: 2,
+          align: 'center'
+        },
+        {
+          type: 'text',
+          text: match.match_awayteam_name,
+          flex: 3,
+          align: 'end'
+        },
+        {
+          type: 'icon',
+          url: `${config.BASE_URL}/static/flag/${match.match_awayteam_name.replace(' ', '')}.png`,
+          size: 'sm',
+        }
+      ]
+    };
+
+    // last match
+    let statBlock = {
+      type: 'text',
+      text: 'Statistics not available!',
+      align: 'center',
+    };
+    if (stats && stats.length > 0) {
+      let statContents = stats.map(stat => {
+        return {
+          type: 'box',
+          layout: 'baseline',
+          contents: [
+            {
+              type: 'text',
+              flex: 2,
+              align: 'center',
+              text: stat.home,
+            },
+            {
+              type: 'text',
+              flex: 5,
+              align: 'center',
+              text: stat.type,
+            },
+            {
+              type: 'text',
+              flex: 2,
+              align: 'center',
+              text: stat.away,
+            },
+          ],
+        }
+      });
+      statBlock = {
+        type: 'box',
+        layout: 'vertical',
+        contents: statContents,
+      };
+    }
+
+    let body = {
+      type: 'box',
+      layout: 'vertical',
+      spacing: 'md',
+      contents: [
+        titleBlock,
+        teamBlock,
+        {
+          type: 'separator',
+        },
+        statBlock,
+      ],
+    };
+
+    let footer = {
+      type: 'box',
+      layout: 'vertical',
+      contents: [
+        {
+          "type": "separator",
+          "margin": "xxl"
+        },
+        getSourceButton(replyToken)
+      ]
+    };
+    let container = {
+      type: 'bubble',
+      body: body,
+      footer: footer,
+    };
     return container;
   }
 }
 
-// {
-//   type: 'button',
-//   action: {
-//     type: 'postback',
-//     label: 'Subscribe Live Result',
-//     data: 'SUBSCRIBE_' + match.match_id,
-//     displayText: 'subscribe'
-//   },
-//   style: 'primary'
-// }
 function getSourceButton(replyToken) {
   return {
     type: 'button',
@@ -933,6 +975,50 @@ function getSourceButton(replyToken) {
     },
     style: 'secondary'
   }
+}
+
+function getRecentMatch(team, match) {
+  let isHome = (match.match_hometeam_name === team);
+  let isDraw = (match.match_hometeam_score === match.match_awayteam_score);
+  let isHomeWin = (+(match.match_hometeam_score) > +(match.match_awayteam_score));
+  return {
+    type: 'box',
+    layout: 'baseline',
+    contents: [
+      {
+        type: 'text',
+        size: 'xs',
+        flex: 2,
+        color: '#111111',
+        margin: 'md',
+        text: isDraw ? 'D' : (isHome ? (isHomeWin ? 'W' : 'L') : (isHomeWin ? 'L' : 'W')),
+      },
+      {
+        type: 'text',
+        size: 'xs',
+        flex: 7,
+        text: isHome ? match.match_awayteam_name : match.match_hometeam_name,
+      },
+      {
+        type: 'text',
+        size: 'xs',
+        flex: 1,
+        text: `${match.match_hometeam_score}`,
+      },
+      {
+        type: 'text',
+        size: 'xs',
+        flex: 1,
+        text: '-',
+      },
+      {
+        type: 'text',
+        size: 'xs',
+        flex: 1,
+        text: `${match.match_awayteam_score}`,
+      }
+    ],
+  };
 }
 
 function createPostBackOption(label, key, data) {

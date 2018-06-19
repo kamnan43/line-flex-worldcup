@@ -71,6 +71,7 @@ function handleEvent(event) {
         case 'SCHEDULE': return worldcup.sendScheduleMessage(userId, replyToken);
         case 'TABLE': return worldcup.sendStandingMessage(userId, replyToken);
         case 'H2H': return worldcup.sendH2HMessage(userId, replyToken, data);
+        case 'STAT': return worldcup.sendStatMessage(userId, replyToken, data);
       }
     default:
       throw new Error(`Unknown event: ${JSON.stringify(event)}`);
@@ -119,4 +120,7 @@ setInterval(() => {
   worldcup.updateStanding();
 }, 1000 * 60 * 10); // 10 minutes
 
-worldcup.getLiveReport();  // realtime database
+
+
+// worldcup.getLiveReport();  // realtime database
+// worldcup.sendStatMessage('qq', 'replyToken', '293784');

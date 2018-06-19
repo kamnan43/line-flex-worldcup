@@ -107,17 +107,35 @@ module.exports = {
   sendH2HMessage: async (userId, replyToken, matchId) => {
     getMatch(matchId)
       .then((match) => {
-        return apifootball.getH2H(match.match_hometeam_name, match.match_awayteam_name);
+        if (match.length > 0) {
+          return apifootball.getH2H(match[0].match_hometeam_name, match[0].match_awayteam_name);
+        }
       })
       .then((result) => {
-        let h2hBubbles = options.getH2HContentBubble(result);
+        let h2hBubbles = options.getH2HContentBubble('Head 2 Head', result, replyToken);
         let messages = [
-          lineHelper.createFlexCarouselMessage('Head 2 Head', h2hBubbles),
+          lineHelper.createFlexCarouselMessage('Head 2 Head', [h2hBubbles]),
         ];
         saveFile(replyToken, messages[0].contents);
         line.replyMessage(replyToken, messages)
           .then((msg) => { console.log('line:', msg) })
           .catch((err) => { console.log('line error:', err) });
+      });
+  },
+
+  sendStatMessage: async (userId, replyToken, matchId) => {
+    getMatch(matchId)
+      .then((match) => {
+        if (match.length > 0) {
+          let statBubbles = options.getStatContentBubble('Statistics', match[0], replyToken);
+          let messages = [
+            lineHelper.createFlexCarouselMessage('Statistics', [statBubbles]),
+          ];
+          saveFile(replyToken, messages[0].contents);
+          line.replyMessage(replyToken, messages)
+            .then((msg) => { console.log('line:', msg) })
+            .catch((err) => { console.log('line error:', err) });
+        }
       });
   },
 

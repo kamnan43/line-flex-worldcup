@@ -78,7 +78,11 @@ function getH2H(firstTeam, secondTeam) {
         // fs.writeFile(`standing_${leagueId}.json`, JSON.stringify(data, null, 2), function (err) {
         //   if (err) { return console.log(`getStanding Error write file league : ${leagueId}`, err); }
         // });
-        resolve(data);
+        resolve({
+          firstTeam: firstTeam,
+          secondTeam: secondTeam,
+          data: data,
+        });
       })
       .catch(function (err) {
         console.log(`getH2H Error get data league : ${leagueId}`);

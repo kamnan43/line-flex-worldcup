@@ -107,7 +107,7 @@ module.exports = {
   sendH2HMessage: async (userId, replyToken, matchId) => {
     getMatch(matchId)
       .then((match) => {
-        return config.apiFootball.getH2H(match.match_hometeam_name, match.match_awayteam_name);
+        return apiFootball.getH2H(match.match_hometeam_name, match.match_awayteam_name);
       })
       .then((result) => {
         let h2hBubbles = options.getH2HContentBubble(result);

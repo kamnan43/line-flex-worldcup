@@ -586,8 +586,9 @@ module.exports = {
         });
       });
     }
-
-    contents.push(detail);
+    if (detail.contents.length > 0) {
+      contents.push(detail);
+    }
 
     let body = {
       type: 'box',

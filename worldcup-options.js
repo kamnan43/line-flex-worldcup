@@ -2,17 +2,6 @@ const config = require('./config.json');
 const moment = require('moment');
 
 module.exports = {
-  getSourceButton: (replyToken) => {
-    return {
-      type: 'button',
-      action: {
-        type: 'uri',
-        label: 'View Source [dev]',
-        url: `https://sitthi.me:3807/downloaded/${replyToken}.json`
-      },
-      style: 'secondary'
-    }
-  },
   getMenuBubble: (replyToken) => {
     return {
       type: 'bubble',
@@ -108,7 +97,7 @@ module.exports = {
         type: 'box',
         layout: 'vertical',
         contents: [
-          this.getSourceButton(replyToken)
+          getSourceButton(replyToken)
         ]
       }
     }
@@ -241,7 +230,7 @@ module.exports = {
             },
             style: 'primary'
           },
-          this.getSourceButton(replyToken)
+          getSourceButton(replyToken)
         ]
       }
     };
@@ -341,7 +330,7 @@ module.exports = {
             },
             style: 'primary'
           },
-          this.getSourceButton(replyToken)
+          getSourceButton(replyToken)
         ]
       }
     };
@@ -672,7 +661,7 @@ module.exports = {
       type: 'box',
       layout: 'vertical',
       contents: [
-        this.getSourceButton(replyToken)
+        getSourceButton(replyToken)
       ]
     };
     let container = {
@@ -695,6 +684,17 @@ module.exports = {
 //   },
 //   style: 'primary'
 // }
+function getSourceButton(replyToken) {
+  return {
+    type: 'button',
+    action: {
+      type: 'uri',
+      label: 'View Source [dev]',
+      url: `https://sitthi.me:3807/downloaded/${replyToken}.json`
+    },
+    style: 'secondary'
+  }
+}
 
 function createPostBackOption(label, key, data) {
   let shortLabel = label.trimLeft().trimRight().substring(0, 12);

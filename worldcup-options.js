@@ -14,101 +14,103 @@ module.exports = {
     }
   },
   getMenuBubble: (replyToken) => {
-    type: 'bubble',
+    return {
+      type: 'bubble',
       header: {
-      type: 'box',
+        type: 'box',
         layout: 'vertical',
-          contents: [
-            {
-              type: 'text',
-              text: 'FIFA World Cup 2018',
-              size: 'xl',
-              weight: 'bold'
-            }
-          ]
-    },
-    hero: {
-      type: 'image',
+        contents: [
+          {
+            type: 'text',
+            text: 'FIFA World Cup 2018',
+            size: 'xl',
+            weight: 'bold'
+          }
+        ]
+      },
+      hero: {
+        type: 'image',
         url: 'https://sitthi.me:3807/static/fifa.jpg',
-          size: 'full',
-            aspectRatio: '20:13',
-              aspectMode: 'cover'
-    },
-    body: {
-      type: 'box',
+        size: 'full',
+        aspectRatio: '20:13',
+        aspectMode: 'cover'
+      },
+      body: {
+        type: 'box',
         layout: 'vertical',
-          spacing: 'md',
+        spacing: 'md',
+        contents: [
+          {
+            type: 'box',
+            layout: 'vertical',
+            margin: 'lg',
+            spacing: 'sm',
             contents: [
               {
                 type: 'box',
-                layout: 'vertical',
-                margin: 'lg',
+                layout: 'horizontal',
                 spacing: 'sm',
                 contents: [
                   {
-                    type: 'box',
-                    layout: 'horizontal',
-                    spacing: 'sm',
-                    contents: [
-                      {
-                        type: 'button',
-                        style: 'primary',
-                        action: {
-                          type: 'postback',
-                          label: 'Last Match',
-                          displayText: 'Last Match',
-                          data: 'LAST'
-                        }
-                      },
-                      {
-                        type: 'button',
-                        style: 'primary',
-                        action: {
-                          type: 'postback',
-                          label: 'Next Match',
-                          displayText: 'Next Match',
-                          data: 'NEXT'
-                        }
-                      }
-                    ]
+                    type: 'button',
+                    style: 'primary',
+                    action: {
+                      type: 'postback',
+                      label: 'Last Match',
+                      displayText: 'Last Match',
+                      data: 'LAST'
+                    }
                   },
                   {
-                    type: 'box',
-                    layout: 'horizontal',
-                    spacing: 'sm',
-                    contents: [
-                      {
-                        type: 'button',
-                        style: 'primary',
-                        action: {
-                          type: 'postback',
-                          label: 'Schedule',
-                          displayText: 'Schedule',
-                          data: 'SCHEDULE'
-                        }
-                      },
-                      {
-                        type: 'button',
-                        style: 'primary',
-                        action: {
-                          type: 'postback',
-                          label: 'Table',
-                          displayText: 'Table',
-                          data: 'TABLE'
-                        }
-                      }
-                    ]
+                    type: 'button',
+                    style: 'primary',
+                    action: {
+                      type: 'postback',
+                      label: 'Next Match',
+                      displayText: 'Next Match',
+                      data: 'NEXT'
+                    }
+                  }
+                ]
+              },
+              {
+                type: 'box',
+                layout: 'horizontal',
+                spacing: 'sm',
+                contents: [
+                  {
+                    type: 'button',
+                    style: 'primary',
+                    action: {
+                      type: 'postback',
+                      label: 'Schedule',
+                      displayText: 'Schedule',
+                      data: 'SCHEDULE'
+                    }
+                  },
+                  {
+                    type: 'button',
+                    style: 'primary',
+                    action: {
+                      type: 'postback',
+                      label: 'Table',
+                      displayText: 'Table',
+                      data: 'TABLE'
+                    }
                   }
                 ]
               }
             ]
-    },
-    footer: {
-      type: 'box',
+          }
+        ]
+      },
+      footer: {
+        type: 'box',
         layout: 'vertical',
-          contents: [
-            getSourceButton(replyToken)
-          ]
+        contents: [
+          getSourceButton(replyToken)
+        ]
+      }
     }
   },
   menuLiveBox: {

@@ -128,7 +128,9 @@ async function sendMatchMessage(match, replyToken) {
   let bubble = [];
   let messages = [];
   if (match.length > 0) {
-    bubble.push(options.getMatchContentBubble('Match Info', match[0]))
+    for (let i = 0; i < 5 && i < match.length; i++) {
+      bubble.push(options.getMatchContentBubble('Match Info', match[i]))
+    }
     messages.push(lineHelper.createFlexCarouselMessage('Match Info', bubble));
   } else {
     messages.push(lineHelper.createTextMessage('No Match'));

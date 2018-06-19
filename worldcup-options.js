@@ -2,7 +2,16 @@ const config = require('./config.json');
 const moment = require('moment');
 
 module.exports = {
-  menuBubble: {
+  getSourceButton: (replyToken) => {
+    type: 'button',
+    action: {
+      type: 'uri',
+      label: 'View Source [dev]',
+      url: `https://sitthi.me:3807/downloaded/${replyToken}.json`
+    },
+    style: 'secondary'
+  },
+  getMenuBubble: (replyToken) => {
     type: 'bubble',
     header: {
       type: 'box',
@@ -91,6 +100,13 @@ module.exports = {
           ]
         }
       ]
+    },
+    footer: {
+      type: 'box',
+      layout: 'vertical',
+      contents: [
+        getSourceButton(replyToken)
+      ]
     }
   },
   menuLiveBox: {
@@ -121,7 +137,7 @@ module.exports = {
       }
     }
   },
-  getStandingBubble: (teams) => {
+  getStandingBubble: (teams, replyToken) => {
     let bubble = {
       type: 'bubble',
       body: {
@@ -220,7 +236,8 @@ module.exports = {
               displayText: 'Schedule'
             },
             style: 'primary'
-          }
+          },
+          getSourceButton(replyToken)
         ]
       }
     };
@@ -290,7 +307,7 @@ module.exports = {
 
     return bubble;
   },
-  getScheduleBubble: (matchs) => {
+  getScheduleBubble: (matchs, replyToken) => {
     let bubble = {
       type: 'bubble',
       body: {
@@ -319,7 +336,8 @@ module.exports = {
               displayText: 'Table'
             },
             style: 'primary'
-          }
+          },
+          getSourceButton(replyToken)
         ]
       }
     };
@@ -415,7 +433,7 @@ module.exports = {
 
     return bubble;
   },
-  getMatchContentBubble: (title, match) => {
+  getMatchContentBubble: (title, match, replyToken) => {
     let contents = [];
     // title
     contents.push({
@@ -650,26 +668,29 @@ module.exports = {
       type: 'box',
       layout: 'vertical',
       contents: [
-        {
-          type: 'button',
-          action: {
-            type: 'postback',
-            label: 'Subscribe Live Result',
-            data: 'SUBSCRIBE_' + match.match_id,
-            displayText: 'subscribe'
-          },
-          style: 'primary'
-        }
+        getSourceButton(replyToken)
       ]
     };
     let container = {
       type: 'bubble',
       body: body,
+      footer: footer,
     };
     // if (match.match_status !== 'FT') container.footer = footer;
     return container;
   }
 }
+
+// {
+//   type: 'button',
+//   action: {
+//     type: 'postback',
+//     label: 'Subscribe Live Result',
+//     data: 'SUBSCRIBE_' + match.match_id,
+//     displayText: 'subscribe'
+//   },
+//   style: 'primary'
+// }
 
 function createPostBackOption(label, key, data) {
   let shortLabel = label.trimLeft().trimRight().substring(0, 12);

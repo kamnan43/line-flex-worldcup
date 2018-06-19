@@ -49,7 +49,7 @@ module.exports = {
   // },
 
   sendMenuMessage: async (userId, replyToken) => {
-    let bubble = _.cloneDeep(options.menuBubble);
+    let bubble = options.getMenuBubble(replyToken);
     let liveMatch = await getLiveMatch();
     if (liveMatch.length > 0) {
       bubble.body.contents.unshift({ type: 'separator', margin: 'lg' });
@@ -92,7 +92,7 @@ module.exports = {
       let groupBubbles = config.apiFootball.leagues.map(leagueId => {
         let group = list.filter(l => +(l.league_id) === leagueId);
         group = group.sort((a, b) => { return a.overall_league_position - b.overall_league_position });
-        return options.getStandingBubble(group);
+        return options.getStandingBubble(group, replyToken);
       });
       let messages = [
         lineHelper.createFlexCarouselMessage('Group Standing', groupBubbles),
@@ -108,7 +108,7 @@ module.exports = {
     getAllMatch().then((list) => {
       let groupBubbles = config.apiFootball.leagues.map(leagueId => {
         let group = list.filter(l => +(l.league_id) === leagueId);
-        return options.getScheduleBubble(group);
+        return options.getScheduleBubble(group, replyToken);
       });
       let messages = [
         lineHelper.createFlexCarouselMessage('Schedule', groupBubbles),
@@ -126,7 +126,7 @@ async function sendMatchMessage(match, replyToken) {
   let messages = [];
   if (match.length > 0) {
     for (let i = 0; i < 5 && i < match.length; i++) {
-      bubble.push(options.getMatchContentBubble('Match Info', match[i]))
+      bubble.push(options.getMatchContentBubble('Match Info', match[i], replyToken))
     }
     messages.push(lineHelper.createFlexCarouselMessage('Match Info', bubble));
   } else {

@@ -5,7 +5,8 @@ const fs = require('fs');
 
 module.exports = {
   getEvents: getEvents,
-  getStanding: getStanding
+  getStanding: getStanding,
+  getH2H: getH2H,
 }
 
 function getEvents(leagueId) {

@@ -650,8 +650,12 @@ module.exports = {
           ]
         },
         {
+          "type": "separator",
+          "margin": "xxl"
+        },
+        {
           type: 'button',
-          style: 'secondary',
+          style: 'primary',
           action: {
             type: 'postback',
             label: 'Head 2 Head',

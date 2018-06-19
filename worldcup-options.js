@@ -3,110 +3,112 @@ const moment = require('moment');
 
 module.exports = {
   getSourceButton: (replyToken) => {
-    type: 'button',
-    action: {
-      type: 'uri',
-      label: 'View Source [dev]',
-      url: `https://sitthi.me:3807/downloaded/${replyToken}.json`
-    },
-    style: 'secondary'
+    return {
+      type: 'button',
+      action: {
+        type: 'uri',
+        label: 'View Source [dev]',
+        url: `https://sitthi.me:3807/downloaded/${replyToken}.json`
+      },
+      style: 'secondary'
+    }
   },
   getMenuBubble: (replyToken) => {
     type: 'bubble',
-    header: {
+      header: {
       type: 'box',
-      layout: 'vertical',
-      contents: [
-        {
-          type: 'text',
-          text: 'FIFA World Cup 2018',
-          size: 'xl',
-          weight: 'bold'
-        }
-      ]
+        layout: 'vertical',
+          contents: [
+            {
+              type: 'text',
+              text: 'FIFA World Cup 2018',
+              size: 'xl',
+              weight: 'bold'
+            }
+          ]
     },
     hero: {
       type: 'image',
-      url: 'https://sitthi.me:3807/static/fifa.jpg',
-      size: 'full',
-      aspectRatio: '20:13',
-      aspectMode: 'cover'
+        url: 'https://sitthi.me:3807/static/fifa.jpg',
+          size: 'full',
+            aspectRatio: '20:13',
+              aspectMode: 'cover'
     },
     body: {
       type: 'box',
-      layout: 'vertical',
-      spacing: 'md',
-      contents: [
-        {
-          type: 'box',
-          layout: 'vertical',
-          margin: 'lg',
-          spacing: 'sm',
-          contents: [
-            {
-              type: 'box',
-              layout: 'horizontal',
-              spacing: 'sm',
-              contents: [
-                {
-                  type: 'button',
-                  style: 'primary',
-                  action: {
-                    type: 'postback',
-                    label: 'Last Match',
-                    displayText: 'Last Match',
-                    data: 'LAST'
+        layout: 'vertical',
+          spacing: 'md',
+            contents: [
+              {
+                type: 'box',
+                layout: 'vertical',
+                margin: 'lg',
+                spacing: 'sm',
+                contents: [
+                  {
+                    type: 'box',
+                    layout: 'horizontal',
+                    spacing: 'sm',
+                    contents: [
+                      {
+                        type: 'button',
+                        style: 'primary',
+                        action: {
+                          type: 'postback',
+                          label: 'Last Match',
+                          displayText: 'Last Match',
+                          data: 'LAST'
+                        }
+                      },
+                      {
+                        type: 'button',
+                        style: 'primary',
+                        action: {
+                          type: 'postback',
+                          label: 'Next Match',
+                          displayText: 'Next Match',
+                          data: 'NEXT'
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    type: 'box',
+                    layout: 'horizontal',
+                    spacing: 'sm',
+                    contents: [
+                      {
+                        type: 'button',
+                        style: 'primary',
+                        action: {
+                          type: 'postback',
+                          label: 'Schedule',
+                          displayText: 'Schedule',
+                          data: 'SCHEDULE'
+                        }
+                      },
+                      {
+                        type: 'button',
+                        style: 'primary',
+                        action: {
+                          type: 'postback',
+                          label: 'Table',
+                          displayText: 'Table',
+                          data: 'TABLE'
+                        }
+                      }
+                    ]
                   }
-                },
-                {
-                  type: 'button',
-                  style: 'primary',
-                  action: {
-                    type: 'postback',
-                    label: 'Next Match',
-                    displayText: 'Next Match',
-                    data: 'NEXT'
-                  }
-                }
-              ]
-            },
-            {
-              type: 'box',
-              layout: 'horizontal',
-              spacing: 'sm',
-              contents: [
-                {
-                  type: 'button',
-                  style: 'primary',
-                  action: {
-                    type: 'postback',
-                    label: 'Schedule',
-                    displayText: 'Schedule',
-                    data: 'SCHEDULE'
-                  }
-                },
-                {
-                  type: 'button',
-                  style: 'primary',
-                  action: {
-                    type: 'postback',
-                    label: 'Table',
-                    displayText: 'Table',
-                    data: 'TABLE'
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
+                ]
+              }
+            ]
     },
     footer: {
       type: 'box',
-      layout: 'vertical',
-      contents: [
-        getSourceButton(replyToken)
-      ]
+        layout: 'vertical',
+          contents: [
+            getSourceButton(replyToken)
+          ]
     }
   },
   menuLiveBox: {

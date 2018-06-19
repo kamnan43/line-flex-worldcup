@@ -649,10 +649,14 @@ module.exports = {
           ]
         },
         {
-          type: 'postback',
-          label: 'Head 2 Head',
-          displayText: `${match.match_hometeam_name} VS ${match.match_awayteam_name}`,
-          data: `H2H_${match.match_id}`,
+          type: 'button',
+          style: 'secondary',
+          action: {
+            type: 'postback',
+            label: 'Head 2 Head',
+            displayText: `${match.match_hometeam_name} VS ${match.match_awayteam_name}`,
+            data: `H2H_${match.match_id}`,
+          },
         },
         getSourceButton(replyToken)
       ]

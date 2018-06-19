@@ -431,7 +431,7 @@ module.exports = {
     // title
     contents.push({
       type: 'text',
-      text: match.match_status || 'Next Match',
+      text: match.match_status || 'Upcoming Match',
       wrap: true,
       weight: 'bold',
       gravity: 'center',
@@ -451,7 +451,7 @@ module.exports = {
         {
           type: 'text',
           text: match.match_hometeam_name,
-          flex: 3,
+          flex: 5,
           align: 'start'
         },
         {
@@ -463,7 +463,7 @@ module.exports = {
         {
           type: 'text',
           text: match.match_awayteam_name,
-          flex: 3,
+          flex: 5,
           align: 'end'
         },
         {
@@ -722,7 +722,7 @@ module.exports = {
             {
               type: 'text',
               text: match.match_hometeam_name,
-              flex: 3,
+              flex: 5,
               align: 'start'
             },
             {
@@ -734,7 +734,7 @@ module.exports = {
             {
               type: 'text',
               text: match.match_awayteam_name,
-              flex: 3,
+              flex: 5,
               align: 'end'
             },
             {
@@ -868,7 +868,7 @@ module.exports = {
         {
           type: 'text',
           text: match.match_hometeam_name,
-          flex: 3,
+          flex: 5,
           align: 'start'
         },
         {
@@ -880,7 +880,7 @@ module.exports = {
         {
           type: 'text',
           text: match.match_awayteam_name,
-          flex: 3,
+          flex: 5,
           align: 'end'
         },
         {
@@ -968,10 +968,10 @@ module.exports = {
 function getSourceButton(replyToken) {
   return {
     type: 'button',
-    margin: 'md',
+    margin: 'sm',
     action: {
       type: 'uri',
-      label: 'View Source [dev]',
+      label: 'View Source',
       uri: `https://sitthi.me:3807/downloaded/${replyToken}.json`
     },
     style: 'secondary'

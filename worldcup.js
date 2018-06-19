@@ -356,7 +356,7 @@ function updateStanding() {
 }
 
 function saveFile (id, data) {
-  fs.writeFile(`/downloaded/${id}.json`, JSON.stringify(data, null, 2), function (err) {
+  fs.writeFile(`downloaded/${id}.json`, JSON.stringify(data, null, 2), function (err) {
     if (err) { return console.log(err); }
     console.log("The file was saved!");
   });

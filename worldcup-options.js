@@ -715,11 +715,6 @@ module.exports = {
           spacing: 'sm',
           contents: [
             {
-              type: 'icon',
-              url: `${config.BASE_URL}/static/flag/${match.match_hometeam_name.replace(' ', '')}.png`,
-              size: 'sm',
-            },
-            {
               type: 'text',
               text: match.match_hometeam_name,
               flex: 5,
@@ -736,11 +731,6 @@ module.exports = {
               text: match.match_awayteam_name,
               flex: 5,
               align: 'end'
-            },
-            {
-              type: 'icon',
-              url: `${config.BASE_URL}/static/flag/${match.match_awayteam_name.replace(' ', '')}.png`,
-              size: 'sm',
             }
           ]
         });

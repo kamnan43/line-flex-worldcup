@@ -114,7 +114,7 @@ module.exports = {
       .then((result) => {
         let h2hBubbles = options.getH2HContentBubble('Head 2 Head', result, replyToken);
         let messages = [
-          lineHelper.createFlexCarouselMessage('Head 2 Head', [h2hBubbles]),
+          lineHelper.createFlexMessage('Head 2 Head', h2hBubbles),
         ];
         saveFile(replyToken, messages[0].contents);
         line.replyMessage(replyToken, messages)
@@ -129,7 +129,7 @@ module.exports = {
         if (match.length > 0) {
           let statBubbles = options.getStatContentBubble('Statistics', match[0], replyToken);
           let messages = [
-            lineHelper.createFlexCarouselMessage('Statistics', [statBubbles]),
+            lineHelper.createFlexMessage('Statistics', statBubbles),
           ];
           saveFile(replyToken, messages[0].contents);
           line.replyMessage(replyToken, messages)
@@ -163,7 +163,11 @@ async function sendMatchMessage(match, replyToken) {
     for (let i = 0; i < 5 && i < match.length; i++) {
       bubble.push(options.getMatchContentBubble('Match Info', match[i], replyToken))
     }
-    messages.push(lineHelper.createFlexCarouselMessage('Match Info', bubble));
+    if (match.length > 1) {
+      messages.push(lineHelper.createFlexCarouselMessage('Match Info', bubble));
+    } else {
+      messages.push(lineHelper.createFlexMessage('Match Info', bubble[0]));
+    }
   } else {
     messages.push(lineHelper.createTextMessage('No Match'));
   }

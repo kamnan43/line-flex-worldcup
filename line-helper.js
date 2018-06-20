@@ -110,22 +110,6 @@ function createFlexMessage(title, containers) {
   };
 }
 
-function createFlexBubble(header, hero, body, footer) {
-  let bubble = {
-    "type": "bubble", 
-  };
-  if (header) bubble.push(header);
-  if (hero) bubble.push(hero);
-  if (body) bubble.push(body);
-  if (footer) bubble.push(footer);
-  return bubble;
-}
-
-function createFlexBubbleMessage(header, hero, body, footer) {
-  let bubble = createFlexBubble(header, hero, body, footer);
-  return createFlexMessage(bubble);
-}
-
 function createFlexCarouselMessage(title, containers) {
   return createFlexMessage(title, {
     "type": "carousel", 

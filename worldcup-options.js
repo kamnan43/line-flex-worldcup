@@ -133,7 +133,7 @@ module.exports = {
   getStandingBubble: (teams, replyToken) => {
     let bubble = {
       type: 'bubble',
-      body: {
+      header: {
         type: 'box',
         layout: 'vertical',
         contents: [
@@ -143,11 +143,13 @@ module.exports = {
             weight: 'bold',
             size: 'xl',
             margin: 'md'
-          },
-          {
-            type: 'separator',
-            margin: 'xl'
-          },
+          }
+        ],
+      },
+      body: {
+        type: 'box',
+        layout: 'vertical',
+        contents: [
           {
             type: 'box',
             layout: 'vertical',

@@ -682,6 +682,8 @@ module.exports = {
     footer.contents.push(getSourceButton(replyToken));
     let container = {
       type: 'bubble',
+      body: body,
+      footer: footer,
     };
     return container;
   },

@@ -297,7 +297,7 @@ module.exports = {
           }
         ]
       };
-      bubble.body.contents[2].contents.push(row);
+      bubble.body.contents[0].contents.push(row);
     });
 
     return bubble;

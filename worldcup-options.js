@@ -142,7 +142,6 @@ module.exports = {
             text: teams[0].league_name,
             weight: 'bold',
             size: 'xl',
-            margin: 'md'
           }
         ],
       },
@@ -153,7 +152,6 @@ module.exports = {
           {
             type: 'box',
             layout: 'vertical',
-            margin: 'md',
             spacing: 'sm',
             contents: [
               {

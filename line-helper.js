@@ -128,7 +128,6 @@ module.exports = {
   createImageCarouselMessage: createImageCarouselMessage,
   createImageCarouselColumns: createImageCarouselColumns,
   createFlexMessage: createFlexMessage,
-  createFlexBubbleMessage: createFlexBubbleMessage,
   createFlexCarouselMessage: createFlexCarouselMessage,
   maxCarouselColumns: maxCarouselColumns
 };

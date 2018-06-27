@@ -69,10 +69,11 @@ function getH2H(firstTeam, secondTeam) {
       firstTeam: firstTeam,
       secondTeam: secondTeam,
     });
-    console.log(`${config.apiFootball.url}?${data}`);
+    let url = `${config.apiFootball.url}?${data}`.replaceAll('%20','+')
+    console.log(`url`, url);
     rp({
       method: 'GET',
-      uri: `${config.apiFootball.url}?${data}`,
+      uri: url,
     })
       .then(function (body) {
         let data = JSON.parse(body);

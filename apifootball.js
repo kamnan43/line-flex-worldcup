@@ -68,9 +68,8 @@ function getH2H(firstTeam, secondTeam) {
       action: 'get_H2H',
       firstTeam: firstTeam,
       secondTeam: secondTeam,
-    }, {
-      strict: false
     });
+    console.log(`${config.apiFootball.url}?${data}`);
     rp({
       method: 'GET',
       uri: `${config.apiFootball.url}?${data}`,

@@ -68,6 +68,8 @@ function getH2H(firstTeam, secondTeam) {
       action: 'get_H2H',
       firstTeam: firstTeam,
       secondTeam: secondTeam,
+    }, {
+      strict: false
     });
     rp({
       method: 'GET',

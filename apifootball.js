@@ -69,8 +69,8 @@ function getH2H(firstTeam, secondTeam) {
       firstTeam: firstTeam,
       secondTeam: secondTeam,
     });
-    let url = `${config.apiFootball.url}?${data}`.replace(/([\%20])+/g, '+')
-    console.log(`url`, url);
+    let url = `${config.apiFootball.url}?${data}`.replace('%20', '+')
+    url = url.replace('%20', '+')
     rp({
       method: 'GET',
       uri: url,

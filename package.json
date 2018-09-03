@@ -1,7 +1,7 @@
 {
-  "name": "wouldcup",
-  "version": "0.0.0",
-  "description": "Worldcup with Flex Message",
+  "name": "line-flex-worldcup",
+  "version": "1.0.0",
+  "description": "Demonstrate how LINE Flex Message work, by implementing World Cup 2018 score update apps with Flex Message.",
   "main": "index.js",
   "scripts": {
     "start": "node ."
